@@ -36,14 +36,6 @@ public class quadrocopterScript : MonoBehaviour {
 		yaw = rot.y;
 		roll = rot.z;
 
-//		Quaternion rotation = GetComponent<Transform> ().rotation;
-//		Quaternion drot = Quaternion.FromToRotation (prevRotation.eulerAngles, rotation.eulerAngles);
-//		print ("drot: " + drot.eulerAngles);
-//		prevRotation = rotation;
-//		print ("pitch: " + pitch + " roll: " + roll + " yaw: " + yaw);
-//		print ("yaw 1: " + yaw);
-
-
 	}
 
 	//функция стабилизации квадрокоптера
@@ -63,8 +55,6 @@ public class quadrocopterScript : MonoBehaviour {
 		dPitch -= Math.Ceiling (Math.Floor (dPitch / 180.0) / 2.0) * 360.0;
 		dRoll -= Math.Ceiling (Math.Floor (dRoll / 180.0) / 2.0) * 360.0;
 		dYaw -= Math.Ceiling (Math.Floor (dYaw / 180.0) / 2.0) * 360.0;
-
-//		print ("dPitch: " + dPitch + " dRoll: " + dRoll + " dYaw: " + dYaw);
 
 		//1 и 2 мотор впереди
 		//3 и 4 моторы сзади
@@ -107,19 +97,6 @@ public class quadrocopterScript : MonoBehaviour {
 		motor2power += - yawForce;
 		motor3power +=   yawForce;
 		motor4power += - yawForce;
-		
-//		print (
-////			"1: " + motor1power + 
-////			"   2: " + motor2power + 
-////			"   3: " + motor3power + 
-////			"   4: " + motor4power +
-////			"   pitch: " + pitch + 
-////			"   roll: " + roll + 
-////			"   yaw: " + yaw + 
-//			"   p: " + pitchForce +
-//			"   r: " + rollForce +
-//			"   y: " + yawForce
-//			);
 
 		GameObject.Find ("Motor1").GetComponent<motorScript>().power = motor1power;
 		GameObject.Find ("Motor2").GetComponent<motorScript>().power = motor2power;
@@ -127,35 +104,9 @@ public class quadrocopterScript : MonoBehaviour {
 		GameObject.Find ("Motor4").GetComponent<motorScript>().power = motor4power;
 	}
 
-	void control () {
-		
-//		//get joystick values
-//		double LX = CrossPlatformInputManager.GetAxis ("LeftStickHorizontal");
-//		double LY = CrossPlatformInputManager.GetAxis ("LeftStickVertical"); //0 -> 2
-//		
-//		double RX = CrossPlatformInputManager.GetAxis ("RightStickHorizontal");
-//		double RY = CrossPlatformInputManager.GetAxis ("RightStickVertical");
-//
-//		throttle = 15 + LY * 15.0;
-//		targetPitch = RY * 90.0;
-//		targetRoll = - RX * 90.0;
-//		targetYaw += LX * 2.0;
-//
-//		GameObject.Find ("/MobileJoystick/ThrottleBar").GetComponent <Scrollbar> ().size = (float) (( throttle - 15 ) / 30.0);
-//
-////		print (
-////			"LX: " + LX + 
-////			"   LY: " + LY +
-////			"   RX: " + RX +
-////			"   RY: " + RY
-////			);
-
-	}
-
 	//как советуют в доке по Unity вычисления проводим в FixedUpdate, а не в Update
 	void FixedUpdate () {
 		readRotation ();
-		control ();
 		stabilize ();
 	}
 	
