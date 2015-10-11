@@ -1,0 +1,505 @@
+newmtl default
+d 1
+Ns 0.75
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro0.jpg
+
+newmtl default_walls1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_231.jpg
+
+newmtl default_bldg2
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_240.jpg
+
+newmtl default_bldg
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_250.jpg
+
+newmtl default_sony_sign
+d 1
+Ns 1
+Ni 0
+Ka 0 1 1
+Kd 0 1 1
+Ks 1 1 1
+Km 0
+
+newmtl default_reactor
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/003disgudsi1.jpg
+
+newmtl default_bldg3
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_231.jpg
+
+newmtl default_bldg_bldg3
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro5.jpg
+
+newmtl default_bldg4
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_270.jpg
+
+newmtl default_bldg8
+d 1
+Ns 0.75
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro0.jpg
+
+newmtl default_walls1_bldg8
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/vhn1.jpg
+
+newmtl default_structure2
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.227451 0.247059 0.286275
+Ks 1 1 1
+Km 0
+map_Kd /Maps/cs1.jpg
+
+newmtl default_bldg1
+d 1
+Ns 0.75
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/003disgudsi1.jpg
+
+newmtl default_walls1_bldg1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_231.jpg
+
+newmtl default_bldg1_1
+d 1
+Ns 0.75
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro0.jpg
+
+newmtl default_walls1_bldg1_1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_280.jpg
+
+newmtl Default
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/Atlantis%20promo.jpg
+
+newmtl default_bldg5b
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fma1_03.jpg
+
+newmtl default_bldg_bldg5b
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.419608 0.419608 0.501961
+Ks 1 1 1
+Km 0
+map_Kd /Maps/antenna.jpg
+
+newmtl default_bldg6
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fma1_03.jpg
+
+newmtl default_bldgs
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.419608 0.419608 0.501961
+Ks 1 1 1
+Km 0
+map_Kd /Maps/antenna.jpg
+
+newmtl default_bldg4_1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_291.jpg
+
+newmtl default_bldg_14
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_291.jpg
+
+newmtl default_sign
+d 1
+Ns 1
+Ni 0
+Ka 0 1 1
+Kd 1 0 0
+Ks 1 1 1
+Km 0
+
+newmtl default_bldg11
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_280.jpg
+
+newmtl default_bldg12
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_231.jpg
+
+newmtl default_bank_sign
+d 1
+Ns 1
+Ni 0
+Ka 1 0.501961 0
+Kd 1 1 0
+Ks 1 1 1
+Km 0
+
+newmtl default_bldg13
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_291.jpg
+
+newmtl default_bldg11b
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fma1_03.jpg
+
+newmtl default_bldg1_2
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_240.jpg
+
+newmtl default_bldg4_2
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_240.jpg
+
+newmtl default_bldg_structure
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 0 0 0
+Km 0
+map_Kd /Maps/flatro0.jpg
+
+newmtl default_bldg12_1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_231.jpg
+
+newmtl default_bldg8_1
+d 1
+Ns 0.75
+Ni 0
+Ka 0 0 0
+Kd 0.286275 0.282353 0.254902
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro0.jpg
+
+newmtl default_walls1_bldg8_1
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/vhn1.jpg
+
+newmtl default_structure2_bldg8
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.227451 0.247059 0.286275
+Ks 1 1 1
+Km 0
+map_Kd /Maps/cs1.jpg
+
+newmtl default_floor
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/dfg1d.jpg
+
+newmtl default_bldg15
+d 1
+Ns 1
+Ni 0
+Ka 0 1 1
+Kd 0 1 1
+Ks 1 1 1
+Km 0
+
+newmtl default_floors
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro5.jpg
+
+newmtl default_windows
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_291.jpg
+
+newmtl default_beacon
+d 1
+Ns 1
+Ni 0
+Ka 1 0 0
+Kd 1 0 0
+Ks 1 1 1
+Km 0
+
+newmtl default_bldg11c
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_280.jpg
+
+newmtl default_fluid_processor_2
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/cct1.jpg
+
+newmtl default_plant_hidro
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/cct1.jpg
+
+newmtl default_bldg16
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_250.jpg
+
+newmtl default_floors_bldg16
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/cs1.jpg
+
+newmtl default_bldg_bldg16
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/vhn1.jpg
+
+newmtl default_bldg_plant
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/flatro9.jpg
+
+newmtl default_floors_bldg_plant
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_180.jpg
+
+newmtl default_bldg_bldg_plant
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/fac_160.jpg
+
+newmtl default_bridge3
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/parkin0.jpg
+
