@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityStandardAssets.CrossPlatformInput;
 using System;
 
 public class quadrocopterScript : MonoBehaviour {
@@ -130,26 +129,26 @@ public class quadrocopterScript : MonoBehaviour {
 
 	void control () {
 		
-		//get joystick values
-		double LX = CrossPlatformInputManager.GetAxis ("LeftStickHorizontal");
-		double LY = CrossPlatformInputManager.GetAxis ("LeftStickVertical"); //0 -> 2
-		
-		double RX = CrossPlatformInputManager.GetAxis ("RightStickHorizontal");
-		double RY = CrossPlatformInputManager.GetAxis ("RightStickVertical");
-
-		throttle = 15 + LY * 15.0;
-		targetPitch = RY * 90.0;
-		targetRoll = - RX * 90.0;
-		targetYaw += LX * 2.0;
-
-		GameObject.Find ("/MobileJoystick/ThrottleBar").GetComponent <Scrollbar> ().size = (float) (( throttle - 15 ) / 30.0);
-
-//		print (
-//			"LX: " + LX + 
-//			"   LY: " + LY +
-//			"   RX: " + RX +
-//			"   RY: " + RY
-//			);
+//		//get joystick values
+//		double LX = CrossPlatformInputManager.GetAxis ("LeftStickHorizontal");
+//		double LY = CrossPlatformInputManager.GetAxis ("LeftStickVertical"); //0 -> 2
+//		
+//		double RX = CrossPlatformInputManager.GetAxis ("RightStickHorizontal");
+//		double RY = CrossPlatformInputManager.GetAxis ("RightStickVertical");
+//
+//		throttle = 15 + LY * 15.0;
+//		targetPitch = RY * 90.0;
+//		targetRoll = - RX * 90.0;
+//		targetYaw += LX * 2.0;
+//
+//		GameObject.Find ("/MobileJoystick/ThrottleBar").GetComponent <Scrollbar> ().size = (float) (( throttle - 15 ) / 30.0);
+//
+////		print (
+////			"LX: " + LX + 
+////			"   LY: " + LY +
+////			"   RX: " + RX +
+////			"   RY: " + RY
+////			);
 
 	}
 
