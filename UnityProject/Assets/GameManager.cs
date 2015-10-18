@@ -66,11 +66,13 @@ private static extern void SetTextureOfCam1(System.IntPtr texture, int w, int h)
 private static extern void SetTextureOfCam1(System.IntPtr texture);
 #endif
 
-	#if UNITY_IPHONE && !UNITY_EDITOR
-	[DllImport ("__Internal")]
-	#else
-	[DllImport("QuadrocopterBrain")]
-	#endif
-	private static extern IntPtr GetRenderEventFunc();
-	
+// Объявление функции, которая будет возвращать функцию,
+// куда будет передано управление в C++
+#if UNITY_IPHONE && !UNITY_EDITOR
+[DllImport ("__Internal")]
+#else
+[DllImport("QuadrocopterBrain")]
+#endif
+private static extern IntPtr GetRenderEventFunc();
+
 }
