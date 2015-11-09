@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AE6525D1BEA4F99007E8163 /* demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524B1BEA4F99007E8163 /* demo.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE6525E1BEA4F99007E8163 /* filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524C1BEA4F99007E8163 /* filter.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE6525F1BEA4F99007E8163 /* matcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524E1BEA4F99007E8163 /* matcher.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652601BEA4F99007E8163 /* matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652501BEA4F99007E8163 /* matrix.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652611BEA4F99007E8163 /* reconstruction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652521BEA4F99007E8163 /* reconstruction.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652621BEA4F99007E8163 /* triangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652551BEA4F99007E8163 /* triangle.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652631BEA4F99007E8163 /* viso_mono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652571BEA4F99007E8163 /* viso_mono.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652641BEA4F99007E8163 /* viso_stereo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652591BEA4F99007E8163 /* viso_stereo.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652651BEA4F99007E8163 /* viso.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6525B1BEA4F99007E8163 /* viso.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652681BEE4CD1007E8163 /* CameraCalibrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652661BEE4CD1007E8163 /* CameraCalibrator.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE6526B1BEF6AFE007E8163 /* DisparityMapCalculator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652691BEF6AFE007E8163 /* DisparityMapCalculator.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE6526E1BEF6E28007E8163 /* CameraUndistortion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6526C1BEF6E28007E8163 /* CameraUndistortion.cpp */; settings = {ASSET_TAGS = (); }; };
+		3AE652771BF09D14007E8163 /* StereoCalibrator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE652751BF09D14007E8163 /* StereoCalibrator.cpp */; settings = {ASSET_TAGS = (); }; };
 		3AF25AE61BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF25AB21BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib */; settings = {ASSET_TAGS = (); }; };
 		3AF25AE71BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF25AB31BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib */; settings = {ASSET_TAGS = (); }; };
 		3AF25AE81BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF25AB41BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib */; settings = {ASSET_TAGS = (); }; };
@@ -63,6 +76,32 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3AE6524B1BEA4F99007E8163 /* demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demo.cpp; path = QuadrocopterBrain/libviso2/demo.cpp; sourceTree = "<group>"; };
+		3AE6524C1BEA4F99007E8163 /* filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filter.cpp; path = QuadrocopterBrain/libviso2/filter.cpp; sourceTree = "<group>"; };
+		3AE6524D1BEA4F99007E8163 /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filter.h; path = QuadrocopterBrain/libviso2/filter.h; sourceTree = "<group>"; };
+		3AE6524E1BEA4F99007E8163 /* matcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = matcher.cpp; path = QuadrocopterBrain/libviso2/matcher.cpp; sourceTree = "<group>"; };
+		3AE6524F1BEA4F99007E8163 /* matcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = matcher.h; path = QuadrocopterBrain/libviso2/matcher.h; sourceTree = "<group>"; };
+		3AE652501BEA4F99007E8163 /* matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = matrix.cpp; path = QuadrocopterBrain/libviso2/matrix.cpp; sourceTree = "<group>"; };
+		3AE652511BEA4F99007E8163 /* matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = matrix.h; path = QuadrocopterBrain/libviso2/matrix.h; sourceTree = "<group>"; };
+		3AE652521BEA4F99007E8163 /* reconstruction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = reconstruction.cpp; path = QuadrocopterBrain/libviso2/reconstruction.cpp; sourceTree = "<group>"; };
+		3AE652531BEA4F99007E8163 /* reconstruction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = reconstruction.h; path = QuadrocopterBrain/libviso2/reconstruction.h; sourceTree = "<group>"; };
+		3AE652541BEA4F99007E8163 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timer.h; path = QuadrocopterBrain/libviso2/timer.h; sourceTree = "<group>"; };
+		3AE652551BEA4F99007E8163 /* triangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = triangle.cpp; path = QuadrocopterBrain/libviso2/triangle.cpp; sourceTree = "<group>"; };
+		3AE652561BEA4F99007E8163 /* triangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = triangle.h; path = QuadrocopterBrain/libviso2/triangle.h; sourceTree = "<group>"; };
+		3AE652571BEA4F99007E8163 /* viso_mono.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viso_mono.cpp; path = QuadrocopterBrain/libviso2/viso_mono.cpp; sourceTree = "<group>"; };
+		3AE652581BEA4F99007E8163 /* viso_mono.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viso_mono.h; path = QuadrocopterBrain/libviso2/viso_mono.h; sourceTree = "<group>"; };
+		3AE652591BEA4F99007E8163 /* viso_stereo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viso_stereo.cpp; path = QuadrocopterBrain/libviso2/viso_stereo.cpp; sourceTree = "<group>"; };
+		3AE6525A1BEA4F99007E8163 /* viso_stereo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viso_stereo.h; path = QuadrocopterBrain/libviso2/viso_stereo.h; sourceTree = "<group>"; };
+		3AE6525B1BEA4F99007E8163 /* viso.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viso.cpp; path = QuadrocopterBrain/libviso2/viso.cpp; sourceTree = "<group>"; };
+		3AE6525C1BEA4F99007E8163 /* viso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viso.h; path = QuadrocopterBrain/libviso2/viso.h; sourceTree = "<group>"; };
+		3AE652661BEE4CD1007E8163 /* CameraCalibrator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraCalibrator.cpp; sourceTree = "<group>"; };
+		3AE652671BEE4CD1007E8163 /* CameraCalibrator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CameraCalibrator.hpp; sourceTree = "<group>"; };
+		3AE652691BEF6AFE007E8163 /* DisparityMapCalculator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DisparityMapCalculator.cpp; sourceTree = "<group>"; };
+		3AE6526A1BEF6AFE007E8163 /* DisparityMapCalculator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DisparityMapCalculator.hpp; sourceTree = "<group>"; };
+		3AE6526C1BEF6E28007E8163 /* CameraUndistortion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CameraUndistortion.cpp; sourceTree = "<group>"; };
+		3AE6526D1BEF6E28007E8163 /* CameraUndistortion.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CameraUndistortion.hpp; sourceTree = "<group>"; };
+		3AE652751BF09D14007E8163 /* StereoCalibrator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StereoCalibrator.cpp; sourceTree = "<group>"; };
+		3AE652761BF09D14007E8163 /* StereoCalibrator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = StereoCalibrator.hpp; sourceTree = "<group>"; };
 		3AF25AA81BD3BA1D0007FCC8 /* QuadrocopterBrain.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuadrocopterBrain.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AF25AAB1BD3BA1D0007FCC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3AF25AB21BD3BA800007FCC8 /* libopencv_calib3d.3.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_calib3d.3.0.0.dylib; path = ../../../../../../usr/local/lib/libopencv_calib3d.3.0.0.dylib; sourceTree = "<group>"; };
@@ -183,11 +222,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3AE6524A1BEA4F7F007E8163 /* libviso2 */ = {
+			isa = PBXGroup;
+			children = (
+				3AE6524B1BEA4F99007E8163 /* demo.cpp */,
+				3AE6524C1BEA4F99007E8163 /* filter.cpp */,
+				3AE6524D1BEA4F99007E8163 /* filter.h */,
+				3AE6524E1BEA4F99007E8163 /* matcher.cpp */,
+				3AE6524F1BEA4F99007E8163 /* matcher.h */,
+				3AE652501BEA4F99007E8163 /* matrix.cpp */,
+				3AE652511BEA4F99007E8163 /* matrix.h */,
+				3AE652521BEA4F99007E8163 /* reconstruction.cpp */,
+				3AE652531BEA4F99007E8163 /* reconstruction.h */,
+				3AE652541BEA4F99007E8163 /* timer.h */,
+				3AE652551BEA4F99007E8163 /* triangle.cpp */,
+				3AE652561BEA4F99007E8163 /* triangle.h */,
+				3AE652571BEA4F99007E8163 /* viso_mono.cpp */,
+				3AE652581BEA4F99007E8163 /* viso_mono.h */,
+				3AE652591BEA4F99007E8163 /* viso_stereo.cpp */,
+				3AE6525A1BEA4F99007E8163 /* viso_stereo.h */,
+				3AE6525B1BEA4F99007E8163 /* viso.cpp */,
+				3AE6525C1BEA4F99007E8163 /* viso.h */,
+			);
+			name = libviso2;
+			sourceTree = "<group>";
+		};
 		3AF25A9F1BD3BA1D0007FCC8 = {
 			isa = PBXGroup;
 			children = (
 				3AF25B261BD3C2470007FCC8 /* OpenGL.framework */,
 				3AF25AB11BD3BA600007FCC8 /* opencv */,
+				3AE6524A1BEA4F7F007E8163 /* libviso2 */,
 				3AF25AAA1BD3BA1D0007FCC8 /* QuadrocopterBrain */,
 				3AF25AA91BD3BA1D0007FCC8 /* Products */,
 			);
@@ -273,6 +338,14 @@
 				3AF25B241BD3C1950007FCC8 /* Unity */,
 				3AF25B1B1BD3BAD30007FCC8 /* Main.cpp */,
 				3AF25B1C1BD3BAD30007FCC8 /* Main.h */,
+				3AE652661BEE4CD1007E8163 /* CameraCalibrator.cpp */,
+				3AE652671BEE4CD1007E8163 /* CameraCalibrator.hpp */,
+				3AE652751BF09D14007E8163 /* StereoCalibrator.cpp */,
+				3AE652761BF09D14007E8163 /* StereoCalibrator.hpp */,
+				3AE652691BEF6AFE007E8163 /* DisparityMapCalculator.cpp */,
+				3AE6526A1BEF6AFE007E8163 /* DisparityMapCalculator.hpp */,
+				3AE6526C1BEF6E28007E8163 /* CameraUndistortion.cpp */,
+				3AE6526D1BEF6E28007E8163 /* CameraUndistortion.hpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -344,7 +417,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AE6526B1BEF6AFE007E8163 /* DisparityMapCalculator.cpp in Sources */,
+				3AE652601BEA4F99007E8163 /* matrix.cpp in Sources */,
+				3AE6525F1BEA4F99007E8163 /* matcher.cpp in Sources */,
+				3AE652621BEA4F99007E8163 /* triangle.cpp in Sources */,
+				3AE652641BEA4F99007E8163 /* viso_stereo.cpp in Sources */,
+				3AE6525D1BEA4F99007E8163 /* demo.cpp in Sources */,
+				3AE652771BF09D14007E8163 /* StereoCalibrator.cpp in Sources */,
+				3AE6526E1BEF6E28007E8163 /* CameraUndistortion.cpp in Sources */,
+				3AE652611BEA4F99007E8163 /* reconstruction.cpp in Sources */,
+				3AE6525E1BEA4F99007E8163 /* filter.cpp in Sources */,
 				3AF25B1D1BD3BAD30007FCC8 /* Main.cpp in Sources */,
+				3AE652651BEA4F99007E8163 /* viso.cpp in Sources */,
+				3AE652681BEE4CD1007E8163 /* CameraCalibrator.cpp in Sources */,
+				3AE652631BEA4F99007E8163 /* viso_mono.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +563,7 @@
 				3AF25AB01BD3BA1D0007FCC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

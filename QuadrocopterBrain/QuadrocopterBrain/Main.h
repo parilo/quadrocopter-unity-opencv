@@ -44,3 +44,5 @@
 	#define SUPPORT_OPENGL 1
 #endif
 #endif /* defined(__QuadrocopterBrain__Main__) */
+
+void DebugLog (std::string str);
