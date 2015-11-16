@@ -107,8 +107,6 @@ void getMatFromTexture (void* texturePointer, cv::Mat& mat) {
         glGetTexLevelParameteriv (GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &texWidth);
         glGetTexLevelParameteriv (GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &texHeight);
 		
-		mat.create(texHeight, texWidth, CV_8UC4);
-		
         // Считывание текстуры в матрицу
         glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, mat.data);
 		
@@ -137,7 +135,11 @@ void setTextureFromMat (const cv::Mat& mat, void* texturePointer) {
 
 int foundSamples = 0;
 
-static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
+cv::Mat image1;
+cv::Mat image2;
+cv::Mat image1r, image2r, disparityMap;
+
+void processRenderEvent (int eventID) {
 	
 	using namespace std;
 	using namespace cv;
@@ -145,11 +147,6 @@ static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
 	stringstream outs;
 	
 	// Матрица OpenCV, в которую будет считана текстура
-	cv::Mat image1;
-	cv::Mat image2;
-	
-	cv::Mat* resultImage1;
-	cv::Mat* resultImage2;
 	
 	getMatFromTexture(g_Cam1TexturePointer, image1);
 	getMatFromTexture(g_Cam2TexturePointer, image2);
@@ -169,58 +166,152 @@ static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
 			
 			}
 			
-			resultImage1 = &image1;
-			resultImage2 = &image2;
+			setTextureFromMat(image1, g_Cam1TexturePointer);
+			setTextureFromMat(image2, g_Cam2TexturePointer);
 			
 		break;
 		
 		case 2:{
 		
-			camera1Calibrator.makeCalibration();
-			camera2Calibrator.makeCalibration();
-			stereoCalibrator.makeCalibration(
-				camera1Calibrator.getSamplesPoints(),
-				camera2Calibrator.getSamplesPoints(),
-				camera1Calibrator.getCameraMatrix(),
-				camera1Calibrator.getDistCoeffs(),
-				camera2Calibrator.getCameraMatrix(),
-				camera2Calibrator.getDistCoeffs()
-			);
+//			camera1Calibrator.makeCalibration();
+//			camera2Calibrator.makeCalibration();
+//			
+//			Mat cam1 = camera1Calibrator.getCameraMatrix();
+//			Mat dist1 = camera1Calibrator.getDistCoeffs();
+//			Mat cam2 = camera2Calibrator.getCameraMatrix();
+//			Mat dist2 = camera2Calibrator.getDistCoeffs();
+
+			//512, 80 deg
+			Mat cam1 = (Mat_<double>(3, 3) <<
+			355.3383989449604, 0, 258.0008490063121,
+			 0, 354.5068750418187, 255.7252273330564,
+			 0, 0, 1);
+
+			Mat dist1 = (Mat_<double>(5, 1) <<
+			-0.02781875153957544,
+			 0.05084431574408409,
+			 0.0003262438299225566,
+			 0.0005420218184546293,
+			 -0.06711413339515834);
+
+			Mat cam2 = (Mat_<double>(3, 3) <<
+			354.8366825622115, 0, 255.7668702403205,
+			 0, 353.9950515096826, 254.3218524455621,
+			 0, 0, 1);
+
+			Mat dist2 = (Mat_<double>(12, 1) <<
+			-0.03429254591232522,
+			 0.04304840389703278,
+			 -0.0005799461588668822,
+			 0.0005396568753307817,
+			 -0.01867317550268149);
+
+			Mat R = (Mat_<double>(3, 3) <<
+			0.9999698145104303, 3.974878365893637e-06, 0.007769816740176146,
+			 -3.390471048492443e-05, 0.9999925806915616, 0.003851936175643478,
+			 -0.00776974378253147, -0.003852083336451321, 0.9999623955607145);
+
+			Mat T = (Mat_<double>(3, 1) <<
+			498.2890078004688,
+			 0.3317087752736566,
+			 -6.137837861924672);
+
+
+//			Mat cam1 = (Mat_<double>(3, 3) <<
+//				887.5814830959689, 0, 511.2748003647517,
+//				0, 887.5814830959689, 511.8256939722189,
+//				0, 0, 1);
+//		
+//			Mat dist1 = (Mat_<double>(12, 1) <<
+//				-0.001531091383660663,
+//				0.01858957949772455,
+//				0,
+//				0,
+//				-0.06373021462035279,
+//				0,
+//				0,
+//				-0.01516275925840146,
+//				0,
+//				0,
+//				0,
+//				0);
+//			
+//			Mat cam2 = (Mat_<double>(3, 3) <<
+//				887.5814830959689, 0, 511.2268697391472,
+//				0, 887.5814830959689, 511.7194307341446,
+//				0, 0, 1);
+//
+//			Mat dist2 = (Mat_<double>(12, 1) <<
+//				0.002488171359921726,
+//				-0.02917898200621713,
+//				0,
+//				0,
+//				0.05042628212990441,
+//				0,
+//				0,
+//				-0.002657446254825969,
+//				0,
+//				0,
+//				0,
+//				0);
+//			
+//			Mat R = (Mat_<double>(3, 3) <<
+//				0.9999999953907108, 8.691722024268189e-06, 9.561920490437516e-05,
+//				-8.703251651993024e-06, 0.9999999926925005, 0.0001205788225588354,
+//				-9.561815616803176e-05, -0.0001205796542010545, 0.9999999881588576);
+//
+//			Mat T = (Mat_<double>(3, 1) <<
+//				501.9997803014718,
+//				0.001700344738181258,
+//				-1.187997223190285);
+
+//			stereoCalibrator.makeCalibration(
+//				camera1Calibrator.getSamplesPoints(),
+//				camera2Calibrator.getSamplesPoints(),
+//				cam1,
+//				dist1,
+//				cam2,
+//				dist2
+//			);
+//			
+//			Mat R = stereoCalibrator.getRotationMatrix();
+//			Mat T = stereoCalibrator.getTranslationVector();
 			
 			outs.clear();
-			outs << "--- stereo calibration: R: " << stereoCalibrator.getRotationMatrix() << endl <<
-			"T: " << stereoCalibrator.getTranslationVector() << endl <<
-			"E: " << stereoCalibrator.getEssentialMatrix() << endl <<
-			"F: " << stereoCalibrator.getFundamentalMatrix() << endl;
+			outs << "--- stereo calibration: " <<
+			"C1: " << cam1 << endl <<
+			"D1: " << dist1 << endl <<
+			"C2: " << cam2 << endl <<
+			"D2: " << dist2 << endl <<
+			"R: " << R << endl <<
+			"T: " << T << endl;
 			DebugLog(outs.str());
 			
 			disparityMapCalculator.set(
-				camera1Calibrator.getCameraMatrix(),
-				camera2Calibrator.getCameraMatrix(),
-				camera1Calibrator.getDistCoeffs(),
-				camera2Calibrator.getDistCoeffs(),
-				stereoCalibrator.getRotationMatrix(),
-				stereoCalibrator.getTranslationVector(),
+				cam1,
+				cam2,
+				dist1,
+				dist2,
+				R,
+				T,
 				cv::Size (image1.rows, image1.cols)
 			);
 			
 			camera1Calibrator.clear();
 			camera2Calibrator.clear();
-			
-			Mat image1r, image2r, disparityMap;
-			
-			disparityMapCalculator.compute(image1, image2, image1r, image2r, disparityMap);
-			
-			resultImage1 = &image1r;
-			resultImage2 = &image2r;
-			
-			setTextureFromMat(disparityMap, g_Out1TexturePointer);
+			foundSamples = 0;
 			
 		}
 		break;
 		
 		case 3:
 		{
+		
+			disparityMapCalculator.compute(image1, image2, image1r, image2r, disparityMap);
+			
+			setTextureFromMat(image1r, g_Cam1TexturePointer);
+			setTextureFromMat(image2r, g_Cam2TexturePointer);
+			setTextureFromMat(disparityMap, g_Out1TexturePointer);
 		}
 		break;
 		
@@ -228,9 +319,42 @@ static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
 		break;
 	}
 	
-	setTextureFromMat(image1, g_Cam1TexturePointer);
-	setTextureFromMat(image2, g_Cam2TexturePointer);
 }
+
+static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
+	processRenderEvent(eventID);
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API setBMParameters (
+	int preFilterSize,
+	int preFilterCap,
+	int blockSize,
+	int minDisparity,
+	int numDisparities,
+	int textureThreshold,
+	int uniquenessRatio,
+	int speckleWindowSize,
+	int speckleRange,
+	int disp12maxDiff
+) {
+	disparityMapCalculator.setBMParameters(preFilterSize, preFilterCap, blockSize, minDisparity, numDisparities, textureThreshold, uniquenessRatio, speckleWindowSize, speckleRange, disp12maxDiff);
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API setSGBMParameters (
+	int preFilterCap,
+	int blockSize,
+	int minDisparity,
+	int numDisparities,
+	int uniquenessRatio,
+	int speckleWindowSize,
+	int speckleRange,
+	int disp12maxDiff,
+	int p1,
+	int p2
+) {
+	disparityMapCalculator.setSGBMParameters(preFilterCap, blockSize, minDisparity, numDisparities, uniquenessRatio, speckleWindowSize, speckleRange, disp12maxDiff, p1, p2);
+}
+
 
 // --------------------------------------------------------------------------
 // UnitySetInterfaces
@@ -252,7 +376,14 @@ extern "C" void	UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
 
 	Size boardSize (9, 6);
 	float squareSize = 167; //in pixels
-	Size imageSize (1024, 1024); //in pixels
+	int texSize = 512;
+	Size imageSize (texSize, texSize); //in pixels
+
+	image1.create(imageSize, CV_8UC4);
+	image2.create(imageSize, CV_8UC4);
+	image1r.create(imageSize, CV_8UC4);
+	image2r.create(imageSize, CV_8UC4);
+//	image1.create(texHeight, texWidth, CV_8UC4);
 	
 	camera1Calibrator.set(boardSize, squareSize, imageSize);
 	camera2Calibrator.set(boardSize, squareSize, imageSize);

@@ -23,10 +23,10 @@ public:
 	void makeCalibration (
 		const std::vector<std::vector<cv::Point2f>>& camera1SamplesPoints,
 		const std::vector<std::vector<cv::Point2f>>& camera2SamplesPoints,
-		const cv::Mat& camera1Matrix,
-		const cv::Mat& camera1DistCoeffs,
-		const cv::Mat& camera2Matrix,
-		const cv::Mat& camera2DistCoeffs
+		cv::Mat& camera1Matrix,
+		cv::Mat& camera1DistCoeffs,
+		cv::Mat& camera2Matrix,
+		cv::Mat& camera2DistCoeffs
 	);
 	
     const cv::Mat& getRotationMatrix ();

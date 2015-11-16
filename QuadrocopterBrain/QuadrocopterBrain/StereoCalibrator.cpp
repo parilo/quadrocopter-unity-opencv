@@ -27,10 +27,10 @@ void StereoCalibrator::set (
 void StereoCalibrator::makeCalibration (
 	const std::vector<std::vector<cv::Point2f>>& camera1SamplesPoints,
 	const std::vector<std::vector<cv::Point2f>>& camera2SamplesPoints,
-	const cv::Mat& camera1Matrix,
-	const cv::Mat& camera1DistCoeffs,
-	const cv::Mat& camera2Matrix,
-	const cv::Mat& camera2DistCoeffs
+	cv::Mat& camera1Matrix,
+	cv::Mat& camera1DistCoeffs,
+	cv::Mat& camera2Matrix,
+	cv::Mat& camera2DistCoeffs
 ) {
 
 	std::vector<vector<Point3f>> objectPoints;
@@ -47,7 +47,13 @@ void StereoCalibrator::makeCalibration (
 		translationVector,
 		essentialMatrix,
 		fundamentalMatrix,
-		CV_CALIB_FIX_INTRINSIC,
+//		CV_CALIB_FIX_INTRINSIC,
+		CV_CALIB_USE_INTRINSIC_GUESS,
+//		CV_CALIB_SAME_FOCAL_LENGTH +
+//		CALIB_FIX_ASPECT_RATIO +
+//		CALIB_ZERO_TANGENT_DIST +
+//		CALIB_RATIONAL_MODEL +
+//		CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
 		TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
 	
     stringstream outs;
