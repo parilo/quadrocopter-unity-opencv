@@ -173,109 +173,60 @@ void processRenderEvent (int eventID) {
 		
 		case 2:{
 		
-//			camera1Calibrator.makeCalibration();
-//			camera2Calibrator.makeCalibration();
-//			
-//			Mat cam1 = camera1Calibrator.getCameraMatrix();
-//			Mat dist1 = camera1Calibrator.getDistCoeffs();
-//			Mat cam2 = camera2Calibrator.getCameraMatrix();
-//			Mat dist2 = camera2Calibrator.getDistCoeffs();
+			camera1Calibrator.makeCalibration();
+			camera2Calibrator.makeCalibration();
+			
+			Mat cam1 = camera1Calibrator.getCameraMatrix();
+			Mat dist1 = camera1Calibrator.getDistCoeffs();
+			Mat cam2 = camera2Calibrator.getCameraMatrix();
+			Mat dist2 = camera2Calibrator.getDistCoeffs();
 
-			//512, 80 deg
-			Mat cam1 = (Mat_<double>(3, 3) <<
-			355.3383989449604, 0, 258.0008490063121,
-			 0, 354.5068750418187, 255.7252273330564,
-			 0, 0, 1);
-
-			Mat dist1 = (Mat_<double>(5, 1) <<
-			-0.02781875153957544,
-			 0.05084431574408409,
-			 0.0003262438299225566,
-			 0.0005420218184546293,
-			 -0.06711413339515834);
-
-			Mat cam2 = (Mat_<double>(3, 3) <<
-			354.8366825622115, 0, 255.7668702403205,
-			 0, 353.9950515096826, 254.3218524455621,
-			 0, 0, 1);
-
-			Mat dist2 = (Mat_<double>(12, 1) <<
-			-0.03429254591232522,
-			 0.04304840389703278,
-			 -0.0005799461588668822,
-			 0.0005396568753307817,
-			 -0.01867317550268149);
-
-			Mat R = (Mat_<double>(3, 3) <<
-			0.9999698145104303, 3.974878365893637e-06, 0.007769816740176146,
-			 -3.390471048492443e-05, 0.9999925806915616, 0.003851936175643478,
-			 -0.00776974378253147, -0.003852083336451321, 0.9999623955607145);
-
-			Mat T = (Mat_<double>(3, 1) <<
-			498.2890078004688,
-			 0.3317087752736566,
-			 -6.137837861924672);
-
-
+//			//512, 80 deg
 //			Mat cam1 = (Mat_<double>(3, 3) <<
-//				887.5814830959689, 0, 511.2748003647517,
-//				0, 887.5814830959689, 511.8256939722189,
-//				0, 0, 1);
-//		
-//			Mat dist1 = (Mat_<double>(12, 1) <<
-//				-0.001531091383660663,
-//				0.01858957949772455,
-//				0,
-//				0,
-//				-0.06373021462035279,
-//				0,
-//				0,
-//				-0.01516275925840146,
-//				0,
-//				0,
-//				0,
-//				0);
-//			
+//			355.3383989449604, 0, 258.0008490063121,
+//			 0, 354.5068750418187, 255.7252273330564,
+//			 0, 0, 1);
+//
+//			Mat dist1 = (Mat_<double>(5, 1) <<
+//			-0.02781875153957544,
+//			 0.05084431574408409,
+//			 0.0003262438299225566,
+//			 0.0005420218184546293,
+//			 -0.06711413339515834);
+//
 //			Mat cam2 = (Mat_<double>(3, 3) <<
-//				887.5814830959689, 0, 511.2268697391472,
-//				0, 887.5814830959689, 511.7194307341446,
-//				0, 0, 1);
+//			354.8366825622115, 0, 255.7668702403205,
+//			 0, 353.9950515096826, 254.3218524455621,
+//			 0, 0, 1);
 //
 //			Mat dist2 = (Mat_<double>(12, 1) <<
-//				0.002488171359921726,
-//				-0.02917898200621713,
-//				0,
-//				0,
-//				0.05042628212990441,
-//				0,
-//				0,
-//				-0.002657446254825969,
-//				0,
-//				0,
-//				0,
-//				0);
-//			
+//			-0.03429254591232522,
+//			 0.04304840389703278,
+//			 -0.0005799461588668822,
+//			 0.0005396568753307817,
+//			 -0.01867317550268149);
+//
 //			Mat R = (Mat_<double>(3, 3) <<
-//				0.9999999953907108, 8.691722024268189e-06, 9.561920490437516e-05,
-//				-8.703251651993024e-06, 0.9999999926925005, 0.0001205788225588354,
-//				-9.561815616803176e-05, -0.0001205796542010545, 0.9999999881588576);
+//			0.9999698145104303, 3.974878365893637e-06, 0.007769816740176146,
+//			 -3.390471048492443e-05, 0.9999925806915616, 0.003851936175643478,
+//			 -0.00776974378253147, -0.003852083336451321, 0.9999623955607145);
 //
 //			Mat T = (Mat_<double>(3, 1) <<
-//				501.9997803014718,
-//				0.001700344738181258,
-//				-1.187997223190285);
+//			498.2890078004688,
+//			 0.3317087752736566,
+//			 -6.137837861924672);
 
-//			stereoCalibrator.makeCalibration(
-//				camera1Calibrator.getSamplesPoints(),
-//				camera2Calibrator.getSamplesPoints(),
-//				cam1,
-//				dist1,
-//				cam2,
-//				dist2
-//			);
-//			
-//			Mat R = stereoCalibrator.getRotationMatrix();
-//			Mat T = stereoCalibrator.getTranslationVector();
+			stereoCalibrator.makeCalibration(
+				camera1Calibrator.getSamplesPoints(),
+				camera2Calibrator.getSamplesPoints(),
+				cam1,
+				dist1,
+				cam2,
+				dist2
+			);
+			
+			Mat R = stereoCalibrator.getRotationMatrix();
+			Mat T = stereoCalibrator.getTranslationVector();
 			
 			outs.clear();
 			outs << "--- stereo calibration: " <<
@@ -383,32 +334,10 @@ extern "C" void	UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
 	image2.create(imageSize, CV_8UC4);
 	image1r.create(imageSize, CV_8UC4);
 	image2r.create(imageSize, CV_8UC4);
-//	image1.create(texHeight, texWidth, CV_8UC4);
 	
 	camera1Calibrator.set(boardSize, squareSize, imageSize);
 	camera2Calibrator.set(boardSize, squareSize, imageSize);
 	stereoCalibrator.set(boardSize, squareSize, imageSize);
-	
-//	Mat cameraMatrix = (Mat_<double>(3, 3) << 1539.913182592396, 0, 871.6435203036719,
-//              0, 1539.913182592396, 704.4739699217903,
-//              0, 0, 1);
-//	
-//	Mat distCoeffs = (Mat_<double>(5, 1) <<
-//		0,
-//		0,
-//		0,
-//		0,
-//		0
-//	);
-//	Size imageSize (1024, 1024);
-//	
-//	Mat baseline = (Mat_<double>(3, 1) << 0.1, 0, 0);
-//	
-////	camera1Undistortion.set(cameraMatrix, distCoeffs, imageSize);
-////	camera2Undistortion.set(cameraMatrix, distCoeffs, imageSize);
-//	disparityMapCalculator.set(cameraMatrix, cameraMatrix, distCoeffs, distCoeffs, Mat::eye(3, 3, CV_64F), baseline, imageSize);
-
-
 	
     // Run OnGraphicsDeviceEvent(initialize) manually on plugin load
     OnGraphicsDeviceEvent(kUnityGfxDeviceEventInitialize);

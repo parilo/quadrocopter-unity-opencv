@@ -24,6 +24,8 @@ void StereoCalibrator::set (
 
 }
 
+/** @brief Функция, выполняющая калибровку стереопары
+*/
 void StereoCalibrator::makeCalibration (
 	const std::vector<std::vector<cv::Point2f>>& camera1SamplesPoints,
 	const std::vector<std::vector<cv::Point2f>>& camera2SamplesPoints,
@@ -33,6 +35,7 @@ void StereoCalibrator::makeCalibration (
 	cv::Mat& camera2DistCoeffs
 ) {
 
+	//снова нам нужно передать геометрию калибровочного паттерна
 	std::vector<vector<Point3f>> objectPoints;
     for( int i = 0; i < camera1SamplesPoints.size(); i++ ) {
 		objectPoints.push_back(chessboardCorners);
@@ -40,15 +43,24 @@ void StereoCalibrator::makeCalibration (
 
     double rms = stereoCalibrate(
 		objectPoints, camera1SamplesPoints, camera2SamplesPoints,
+		//матрицы и параметры искажений будут уточнены и перезаписаны
 		camera1Matrix, camera1DistCoeffs,
 		camera2Matrix, camera2DistCoeffs,
+		//разрешение картинка камеры
 		imageSize,
+		//здесь будет рассчитанная матрица поворота второй камеры относительно первой
 		rotationMatrix,
+		//здесь будет вектор трансляции второй камеры относительно первой
 		translationVector,
+		//здесь будет существенная матрица
 		essentialMatrix,
+		//здесь будет фундаментальная матрица
 		fundamentalMatrix,
-//		CV_CALIB_FIX_INTRINSIC,
+		//флаг, указывающий что нажно использовать переданные матрицы камер
+		//и параметры искажений в качестве начального приближения
 		CV_CALIB_USE_INTRINSIC_GUESS,
+		
+//		CV_CALIB_FIX_INTRINSIC,
 //		CV_CALIB_SAME_FOCAL_LENGTH +
 //		CALIB_FIX_ASPECT_RATIO +
 //		CALIB_ZERO_TANGENT_DIST +
@@ -56,6 +68,8 @@ void StereoCalibrator::makeCalibration (
 //		CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
 		TermCriteria(TermCriteria::COUNT+TermCriteria::EPS, 100, 1e-5) );
 	
+	//функция также возвращает оценку качества калибровки -
+	//ошибку репроекции, она, по идее, тоже не должна привышать 1
     stringstream outs;
 	outs << "--- stereo calib: done with RMS error=" << rms;
 	DebugLog(outs.str());
@@ -108,6 +122,7 @@ void StereoCalibrator::clear () {
 
 
 
+//opencv-source/samples/cpp/stereo_calib.cpp
 
 ///* This is sample from the OpenCV book. The copyright notice is below */
 //

@@ -12,6 +12,15 @@
 using namespace cv;
 using namespace std;
 
+//Создание алгоритмов получения карт смещений
+DisparityMapCalculator::DisparityMapCalculator () {
+	bm = StereoBM::create(16,9);
+	sgbm = StereoSGBM::create(0,16,3);
+}
+
+/** @brief Задание параметров калибровки и
+	инициализация параметров ректификации изображений
+*/
 void DisparityMapCalculator::set (
 	cv::Mat camera1Matrix,
 	cv::Mat camera2Matrix,
@@ -28,21 +37,21 @@ void DisparityMapCalculator::set (
 	this->rotationMatrix = rotationMatrix;
 	this->translationVector = translationVector;
 	
+	//вычисляет параметры ректификации (выпрямления) изображений
 	stereoRectify( camera1Matrix, camera1distCoeff, camera2Matrix, camera2distCoeff, imageSize, rotationMatrix, translationVector, R1, R2, P1, P2, Q, /*CALIB_ZERO_DISPARITY*/0, -1, imageSize, &roi1, &roi2 );
 	
+	//инициализация преобразований ректификации изображений
+	//для левого и правого изображения
 	initUndistortRectifyMap(camera1Matrix, camera1distCoeff, R1, P1, imageSize, CV_16SC2, map11, map12);
 	initUndistortRectifyMap(camera2Matrix, camera2distCoeff, R2, P2, imageSize, CV_16SC2, map21, map22);
-	
+
     bm->setROI1(roi1);
     bm->setROI2(roi2);
 
 }
 
-DisparityMapCalculator::DisparityMapCalculator () {
-	bm = StereoBM::create(16,9);
-	sgbm = StereoSGBM::create(0,16,3);
-}
-
+/** @brief Функция задания параметров алгоритма рассчета карты смещений
+*/
 void DisparityMapCalculator::setBMParameters (
 	int preFilterSize,
 	int preFilterCap,
@@ -93,6 +102,8 @@ void DisparityMapCalculator::setSGBMParameters (
     sgbm->setMode(StereoSGBM::MODE_SGBM);
 }
 
+/** @brief Рассчет карты смещений
+*/
 void DisparityMapCalculator::compute (
 	const cv::Mat& image1,
 	const cv::Mat& image2,
@@ -101,17 +112,26 @@ void DisparityMapCalculator::compute (
 	cv::Mat& disparityMap
 ) {
 
+	// ректификация изображений
 	remap(image1, image1recified, map11, map12, INTER_LINEAR);
 	remap(image2, image2recified, map21, map22, INTER_LINEAR);
+	
+	// для алгоритма очень важно не перепутать левое изображение и правое
+	// также при считывании изображений из OpenGL получается так, что они
+	// оказываются зеркально отображены,
+	// сказываются особенности хранения текстур в OpenGL и OpenCV
+	// нам важно отразить изображения по горизонтали, ниаче алгоритм не сработает
 	flip(image1recified, L, 1);
 	flip(image2recified, R, 1);
 
 	// stereo bm - мне понравился больше чем sgbm,
 	// проще настроился и работает быстрее
+	// StereoBM принимает на входе изображения в градациях серого
 	cv::cvtColor(L, image1gray, CV_RGBA2GRAY, 1);
 	cv::cvtColor(R, image2gray, CV_RGBA2GRAY, 1);
 	
 	int numberOfDisparities = bm->getNumDisparities();
+	//вычисление карты смещений
 	bm->compute(image1gray, image2gray, disp);
 	
 
@@ -119,9 +139,14 @@ void DisparityMapCalculator::compute (
 //	int numberOfDisparities = sgbm->getNumDisparities();
 //	sgbm->compute(L, R, disp);
 
+	//конвертируем карту смещений в изображение, которое можно отобразить
 	disp.convertTo(disp8bit, CV_8U, 255/(numberOfDisparities*16.));
+	//отражаем результат, чтобы увидеть его правильно ориентированным в Unity
 	flip (disp8bit, disp, 1);
 
+	//текстуры у нас хранятся в 4 канальном виде
+	//поэтому нужно конвертировать наше однокальаное изображение
+	//в 4 канала
 	cv::cvtColor(disp, disparityMap, CV_GRAY2RGBA, 4);
 
 }
@@ -156,7 +181,8 @@ void DisparityMapCalculator::compute (
 
 
 
-//stereo_match.cpp 
+// opencv-source/samples/cpp/stereo_match.cpp
+
 ///*
 // *  stereo_match.cpp
 // *  calibration

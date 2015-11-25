@@ -39,6 +39,8 @@ double computeReprojectionErrors(
     return std::sqrt(totalErr/totalPoints);
 }
 
+/** @brief Функция рассчета геометрии калибровочного паттерна
+*/
 void calcChessboardCorners(Size boardSize, float squareSize, vector<Point3f>& corners)
 {
     corners.resize(0);
@@ -47,6 +49,8 @@ void calcChessboardCorners(Size boardSize, float squareSize, vector<Point3f>& co
 			corners.push_back(Point3f(j*squareSize, i*squareSize, 0));
 }
 
+/** @brief Функция выполняющая калибровку
+*/
 bool runCalibration( vector<vector<Point2f> > imagePoints,
                     Size imageSize, Size boardSize,
                     float squareSize, float aspectRatio,
@@ -55,20 +59,32 @@ bool runCalibration( vector<vector<Point2f> > imagePoints,
                     vector<float>& reprojErrs,
                     double& totalAvgErr)
 {
+	//инициализация матрицы внутренних параметров камеры
     cameraMatrix = Mat::eye(3, 3, CV_64F);
     if( flags & CALIB_FIX_ASPECT_RATIO )
         cameraMatrix.at<double>(0,0) = aspectRatio;
 
+	//инициализация коэффициентов дисторсии
     distCoeffs = Mat::zeros(8, 1, CV_64F);
 
+	//рассчитываем координаты точек на калибровочном паттерне
+	//в системе калибровочного паттерна
+	//это необходимо для калибровки
     vector<vector<Point3f> > objectPoints(1);
     calcChessboardCorners(boardSize, squareSize, objectPoints[0]);
 
     objectPoints.resize(imagePoints.size(),objectPoints[0]);
 
+	//вызов OpenCV функции калибровки
+	//objectPoints - заранее известная геометрия калировочного паттерна
+	//imagePoints - калибровочные сэмплы
+	//imageSize - размеры изображения камеры
     double rms = calibrateCamera(objectPoints, imagePoints, imageSize, cameraMatrix,
                     distCoeffs, rvecs, tvecs, flags|CALIB_FIX_K4|CALIB_FIX_K5);
                     ///*|CALIB_FIX_K3*/|CALIB_FIX_K4|CALIB_FIX_K5);
+	
+	//rms - оценка качества калибровки, при хорошей калибровке,
+	//при задании всех размеров в пикселах, должно быть меньше 1
     printf("RMS error reported by calibrateCamera: %g\n", rms);
 
     bool ok = checkRange(cameraMatrix) && checkRange(distCoeffs);
@@ -126,73 +142,15 @@ void saveCameraParams(
     fs << "distortion_coefficients" << distCoeffs;
 
     fs << "avg_reprojection_error" << totalAvgErr;
-//    if( !reprojErrs.empty() )
-//        fs << "per_view_reprojection_errors" << Mat(reprojErrs);
-
-//    if( !rvecs.empty() && !tvecs.empty() )
-//    {
-//        CV_Assert(rvecs[0].type() == tvecs[0].type());
-//        Mat bigmat((int)rvecs.size(), 6, rvecs[0].type());
-//        for( int i = 0; i < (int)rvecs.size(); i++ )
-//        {
-//            Mat r = bigmat(Range(i, i+1), Range(0,3));
-//            Mat t = bigmat(Range(i, i+1), Range(3,6));
-//
-//            CV_Assert(rvecs[i].rows == 3 && rvecs[i].cols == 1);
-//            CV_Assert(tvecs[i].rows == 3 && tvecs[i].cols == 1);
-//            //*.t() is MatExpr (not Mat) so we can use assignment operator
-//            r = rvecs[i].t();
-//            t = tvecs[i].t();
-//        }
-//        //cvWriteComment( *fs, "a set of 6-tuples (rotation vector + translation vector) for each view", 0 );
-//        fs << "extrinsic_parameters" << bigmat;
-//    }
-//
-//    if( !imagePoints.empty() )
-//    {
-//        Mat imagePtMat((int)imagePoints.size(), (int)imagePoints[0].size(), CV_32FC2);
-//        for( int i = 0; i < (int)imagePoints.size(); i++ )
-//        {
-//            Mat r = imagePtMat.row(i).reshape(2, imagePtMat.cols);
-//            Mat imgpti(imagePoints[i]);
-//            imgpti.copyTo(r);
-//        }
-//        fs << "image_points" << imagePtMat;
-//    }
 	
 	DebugLog(fs.str());
 }
 
-//bool runAndSave(const string& outputFilename,
-//                const vector<vector<Point2f> >& imagePoints,
-//                Size imageSize, Size boardSize, float squareSize,
-//                float aspectRatio, int flags, Mat& cameraMatrix,
-//                Mat& distCoeffs, bool writeExtrinsics, bool writePoints )
-//{
-//    vector<Mat> rvecs, tvecs;
-//    vector<float> reprojErrs;
-//    double totalAvgErr = 0;
-//
-//    bool ok = runCalibration(imagePoints, imageSize, boardSize, squareSize,
-//                   aspectRatio, flags, cameraMatrix, distCoeffs,
-//                   rvecs, tvecs, reprojErrs, totalAvgErr);
-//	
-//    printf("%s. avg reprojection error = %.2f\n",
-//           ok ? "Calibration succeeded" : "Calibration failed",
-//           totalAvgErr);
-//
-//    if( ok )
-//        saveCameraParams( outputFilename, imageSize,
-//                         boardSize, squareSize, aspectRatio,
-//                         flags, cameraMatrix, distCoeffs,
-//                         writeExtrinsics ? rvecs : vector<Mat>(),
-//                         writeExtrinsics ? tvecs : vector<Mat>(),
-//                         writeExtrinsics ? reprojErrs : vector<float>(),
-//                         writePoints ? imagePoints : vector<vector<Point2f> >(),
-//                         totalAvgErr );
-//    return ok;
-//}
-
+/** @brief Функция ищет на переданной картинке наш калибровочный паттерн и
+	запоминает найденные точки паттерна.
+	Size boardSize (9, 6) - это конфигурация калибровочного паттерна, количества квадратов по горизонтали и вертикали,
+	в sampleFound сохраняется был ли найден паттерн на изображении
+*/
 void CameraCalibrator::findSample (const cv::Mat& img) {
 
 	currentSamplePoints.clear();
@@ -206,16 +164,19 @@ bool CameraCalibrator::isSampleFound () {
 	return sampleFound;
 }
 
+/** @brief Функция сохранения найденного сэмпла
+*/
 void CameraCalibrator::acceptSample () {
-	// improve the found corners' coordinate accuracy for chessboard
+	// немного улучшает найденные координаты сэмпла
 	Mat viewGray;
 	cvtColor(*currentImage, viewGray, COLOR_BGR2GRAY);
 	cornerSubPix( viewGray, currentSamplePoints, Size(11,11),
 		Size(-1,-1), TermCriteria( TermCriteria::EPS+TermCriteria::COUNT, 30, 0.1 ));
 	
-	// Draw the corners.
+	// рисует на изображении найденные точки (полезно видеть что именно было найдено)
 	drawChessboardCorners(*currentImage, boardSize, Mat(currentSamplePoints), sampleFound);
 	
+	//сохраняет сэмпл
 	samplesPoints.push_back(currentSamplePoints);
 }
 
@@ -227,18 +188,25 @@ const std::vector<std::vector<cv::Point2f>>& CameraCalibrator::getSamplesPoints 
 	return samplesPoints;
 }
 
+/** @brief Функция инициирующая процесс калибровки
+*/
 void CameraCalibrator::makeCalibration () {
     vector<Mat> rvecs, tvecs;
     vector<float> reprojErrs;
     double totalAvgErr = 0;
-//	double pixelsToMetersCoeff = 0.1/1330.0;
-	float aspectRatio = 1.0;//4.0/3.0;
+	//мы знаем заранее, что у нас картинка всегда квадратная
+	//поэтому можно этот параметр не калибровать,
+	//если есть еще какая-то информация о камерах, ее тоже
+	//можно использовать с помощью других флагов, которые
+	//можно здесь указать
+	float aspectRatio = 1.0;
 	int flags = CV_CALIB_FIX_ASPECT_RATIO;
 
     bool ok = runCalibration(samplesPoints, imageSize, boardSize, squareSize,
                    aspectRatio, flags, cameraMatrix, distCoeffs,
                    rvecs, tvecs, reprojErrs, totalAvgErr);
 	
+	// выводим в лог результат калибровки
 	stringstream sstr;
 	sstr << "--- calib result: " << (ok ? "Calibration succeeded" : "Calibration failed") << ". avg reprojection error = " <<
            totalAvgErr;
@@ -299,6 +267,7 @@ void CameraCalibrator::clear () {
 
 
 
+//opencv-source/samples/cpp/calibration.cpp
 
 //#include "opencv2/core.hpp"
 //#include <opencv2/core/utility.hpp>
