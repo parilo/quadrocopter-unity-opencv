@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	private Texture2D cam2Tex;
 	private Texture2D out1Tex;
 	private int frameIndex = 0;
-	private int cameraCalibSamplesCount = 250;
+	private int cameraCalibSamplesCount = 0;//200;
 
 	private Slider preFilterSizeSlider;
 	private Slider preFilterCapSlider;
@@ -77,11 +77,19 @@ public class GameManager : MonoBehaviour {
 		disp12MaxDiffValue = GameObject.Find ("/CamerasTextures/Disp12MaxDiffValue").GetComponent<InputField> ();
 		p1Value = GameObject.Find ("/CamerasTextures/P1Value").GetComponent<InputField> ();
 		p2Value = GameObject.Find ("/CamerasTextures/P2Value").GetComponent<InputField> ();
-		
+
+		//0.25
+//		preFilterCapSlider.value = 5;
+//		blockSizeSlider.value = 8;
+//		numDisparitiesSlider.value = 7;
+//		disp12MaxDiffSlider.value = 15;
+
+		//0.05
 		preFilterCapSlider.value = 5;
-		blockSizeSlider.value = 8;
-		numDisparitiesSlider.value = 7;
+		blockSizeSlider.value = 6;
+		numDisparitiesSlider.value = 8;
 		disp12MaxDiffSlider.value = 15;
+
 
 		onBMParametersChange ();
 	}

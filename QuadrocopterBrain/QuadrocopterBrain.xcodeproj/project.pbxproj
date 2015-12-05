@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A5D79EF1C05BD5600CC9C10 /* OdometryLibviso2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A5D79ED1C05BD5600CC9C10 /* OdometryLibviso2.cpp */; settings = {ASSET_TAGS = (); }; };
 		3AE6525D1BEA4F99007E8163 /* demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524B1BEA4F99007E8163 /* demo.cpp */; settings = {ASSET_TAGS = (); }; };
 		3AE6525E1BEA4F99007E8163 /* filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524C1BEA4F99007E8163 /* filter.cpp */; settings = {ASSET_TAGS = (); }; };
 		3AE6525F1BEA4F99007E8163 /* matcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AE6524E1BEA4F99007E8163 /* matcher.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -76,6 +77,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A5D79ED1C05BD5600CC9C10 /* OdometryLibviso2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OdometryLibviso2.cpp; sourceTree = "<group>"; };
+		3A5D79EE1C05BD5600CC9C10 /* OdometryLibviso2.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OdometryLibviso2.hpp; sourceTree = "<group>"; };
 		3AE6524B1BEA4F99007E8163 /* demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demo.cpp; path = QuadrocopterBrain/libviso2/demo.cpp; sourceTree = "<group>"; };
 		3AE6524C1BEA4F99007E8163 /* filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filter.cpp; path = QuadrocopterBrain/libviso2/filter.cpp; sourceTree = "<group>"; };
 		3AE6524D1BEA4F99007E8163 /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filter.h; path = QuadrocopterBrain/libviso2/filter.h; sourceTree = "<group>"; };
@@ -346,6 +349,8 @@
 				3AE6526A1BEF6AFE007E8163 /* DisparityMapCalculator.hpp */,
 				3AE6526C1BEF6E28007E8163 /* CameraUndistortion.cpp */,
 				3AE6526D1BEF6E28007E8163 /* CameraUndistortion.hpp */,
+				3A5D79ED1C05BD5600CC9C10 /* OdometryLibviso2.cpp */,
+				3A5D79EE1C05BD5600CC9C10 /* OdometryLibviso2.hpp */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -429,6 +434,7 @@
 				3AE6525E1BEA4F99007E8163 /* filter.cpp in Sources */,
 				3AF25B1D1BD3BAD30007FCC8 /* Main.cpp in Sources */,
 				3AE652651BEA4F99007E8163 /* viso.cpp in Sources */,
+				3A5D79EF1C05BD5600CC9C10 /* OdometryLibviso2.cpp in Sources */,
 				3AE652681BEE4CD1007E8163 /* CameraCalibrator.cpp in Sources */,
 				3AE652631BEA4F99007E8163 /* viso_mono.cpp in Sources */,
 			);

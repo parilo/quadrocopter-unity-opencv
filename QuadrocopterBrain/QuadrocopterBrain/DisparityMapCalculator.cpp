@@ -115,20 +115,12 @@ void DisparityMapCalculator::compute (
 	// ректификация изображений
 	remap(image1, image1recified, map11, map12, INTER_LINEAR);
 	remap(image2, image2recified, map21, map22, INTER_LINEAR);
-	
-	// для алгоритма очень важно не перепутать левое изображение и правое
-	// также при считывании изображений из OpenGL получается так, что они
-	// оказываются зеркально отображены,
-	// сказываются особенности хранения текстур в OpenGL и OpenCV
-	// нам важно отразить изображения по горизонтали, ниаче алгоритм не сработает
-	flip(image1recified, L, 1);
-	flip(image2recified, R, 1);
 
 	// stereo bm - мне понравился больше чем sgbm,
 	// проще настроился и работает быстрее
 	// StereoBM принимает на входе изображения в градациях серого
-	cv::cvtColor(L, image1gray, CV_RGBA2GRAY, 1);
-	cv::cvtColor(R, image2gray, CV_RGBA2GRAY, 1);
+	cv::cvtColor(image1recified, image1gray, CV_RGBA2GRAY, 1);
+	cv::cvtColor(image2recified, image2gray, CV_RGBA2GRAY, 1);
 	
 	int numberOfDisparities = bm->getNumDisparities();
 	//вычисление карты смещений
@@ -141,13 +133,11 @@ void DisparityMapCalculator::compute (
 
 	//конвертируем карту смещений в изображение, которое можно отобразить
 	disp.convertTo(disp8bit, CV_8U, 255/(numberOfDisparities*16.));
-	//отражаем результат, чтобы увидеть его правильно ориентированным в Unity
-	flip (disp8bit, disp, 1);
 
 	//текстуры у нас хранятся в 4 канальном виде
 	//поэтому нужно конвертировать наше однокальаное изображение
 	//в 4 канала
-	cv::cvtColor(disp, disparityMap, CV_GRAY2RGBA, 4);
+	cv::cvtColor(disp8bit, disparityMap, CV_GRAY2RGBA, 4);
 
 }
 

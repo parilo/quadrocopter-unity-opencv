@@ -18,6 +18,7 @@
 #include "StereoCalibrator.hpp"
 #include "CameraUndistortion.hpp"
 #include "DisparityMapCalculator.hpp"
+#include "OdometryLibviso2.hpp"
 
 // --------------------------------------------------------------------------
 // Include headers for the graphics APIs we support
@@ -92,6 +93,7 @@ StereoCalibrator stereoCalibrator;
 //CameraUndistortion camera1Undistortion;
 //CameraUndistortion camera2Undistortion;
 DisparityMapCalculator disparityMapCalculator;
+OdometryLibviso2 odometryLibviso2;
 
 void getMatFromTexture (void* texturePointer, cv::Mat& mat) {
 //если вы посмотрите в пример RenderingPluginExampleXX.zip
@@ -138,6 +140,7 @@ int foundSamples = 0;
 cv::Mat image1;
 cv::Mat image2;
 cv::Mat image1r, image2r, disparityMap;
+cv::Mat l1, l2, r1, r2;
 
 void processRenderEvent (int eventID) {
 	
@@ -148,8 +151,16 @@ void processRenderEvent (int eventID) {
 	
 	// Матрица OpenCV, в которую будет считана текстура
 	
-	getMatFromTexture(g_Cam1TexturePointer, image1);
-	getMatFromTexture(g_Cam2TexturePointer, image2);
+	getMatFromTexture(g_Cam1TexturePointer, l1);
+	getMatFromTexture(g_Cam2TexturePointer, r1);
+	
+	// при считывании изображений из OpenGL получается так, что они
+	// оказываются зеркально отображены,
+	// сказываются особенности хранения текстур в OpenGL и OpenCV
+	flip(l1, l2, 1);
+	flip(r1, r2, 1);
+	flip(l2, image1, 0);
+	flip(r2, image2, 0);
 
 	switch (eventID) {
 		case 1:
@@ -166,6 +177,10 @@ void processRenderEvent (int eventID) {
 			
 			}
 			
+			flip(image1, l1, 1);
+			flip(image2, r1, 1);
+			flip(l1, image1, 0);
+			flip(r1, image2, 0);
 			setTextureFromMat(image1, g_Cam1TexturePointer);
 			setTextureFromMat(image2, g_Cam2TexturePointer);
 			
@@ -173,15 +188,15 @@ void processRenderEvent (int eventID) {
 		
 		case 2:{
 		
-			camera1Calibrator.makeCalibration();
-			camera2Calibrator.makeCalibration();
-			
-			Mat cam1 = camera1Calibrator.getCameraMatrix();
-			Mat dist1 = camera1Calibrator.getDistCoeffs();
-			Mat cam2 = camera2Calibrator.getCameraMatrix();
-			Mat dist2 = camera2Calibrator.getDistCoeffs();
+//			camera1Calibrator.makeCalibration();
+//			camera2Calibrator.makeCalibration();
+//			
+//			Mat cam1 = camera1Calibrator.getCameraMatrix();
+//			Mat dist1 = camera1Calibrator.getDistCoeffs();
+//			Mat cam2 = camera2Calibrator.getCameraMatrix();
+//			Mat dist2 = camera2Calibrator.getDistCoeffs();
 
-//			//512, 80 deg
+//			//512, 70 deg, -0.25, 0.25
 //			Mat cam1 = (Mat_<double>(3, 3) <<
 //			355.3383989449604, 0, 258.0008490063121,
 //			 0, 354.5068750418187, 255.7252273330564,
@@ -205,7 +220,7 @@ void processRenderEvent (int eventID) {
 //			 -0.0005799461588668822,
 //			 0.0005396568753307817,
 //			 -0.01867317550268149);
-//
+
 //			Mat R = (Mat_<double>(3, 3) <<
 //			0.9999698145104303, 3.974878365893637e-06, 0.007769816740176146,
 //			 -3.390471048492443e-05, 0.9999925806915616, 0.003851936175643478,
@@ -216,17 +231,54 @@ void processRenderEvent (int eventID) {
 //			 0.3317087752736566,
 //			 -6.137837861924672);
 
-			stereoCalibrator.makeCalibration(
-				camera1Calibrator.getSamplesPoints(),
-				camera2Calibrator.getSamplesPoints(),
-				cam1,
-				dist1,
-				cam2,
-				dist2
-			);
+
+
+			//512, 70 deg, -0.05, 0.05
+			Mat cam1 = (Mat_<double>(3, 3) <<
+			355.632787696046, 0, 254.8861648370192,
+			0, 355.2269749905191, 258.102966900518,
+			0, 0, 1);
+
+			Mat dist1 = (Mat_<double>(5, 1) <<
+			0.02711950895400501,
+			-0.227837274174492,
+			0.0006652596614750893,
+			-0.0005721827370480087,
+			0.307580072157251);
+
+			Mat cam2 = (Mat_<double>(3, 3) <<
+			355.3297273311275, 0, 254.3225838301501,
+			0, 354.8360415105653, 258.4734268638256,
+			0, 0, 1);
+
+			Mat dist2 = (Mat_<double>(5, 1) <<
+			0.038442541655977,
+			-0.2972611233578806,
+			0.0009819212628353676,
+			-0.0006713304761550705,
+			0.4203027526362795);
 			
-			Mat R = stereoCalibrator.getRotationMatrix();
-			Mat T = stereoCalibrator.getTranslationVector();
+			Mat R = (Mat_<double>(3, 3) <<
+			0.9999985973387854, 0.0001540282654807415, 0.001667811666592735,
+			-0.0001522206102392302, 0.9999994009716373, -0.001083921239050295,
+			-0.001667977622034611, 0.00108366584336636, 0.9999980217575394);
+			 
+			Mat T = (Mat_<double>(3, 1) <<
+			100.1986525660281,
+			0.03164248138029097,
+			-1.316448461007167);
+
+//			stereoCalibrator.makeCalibration(
+//				camera1Calibrator.getSamplesPoints(),
+//				camera2Calibrator.getSamplesPoints(),
+//				cam1,
+//				dist1,
+//				cam2,
+//				dist2
+//			);
+//			
+//			Mat R = stereoCalibrator.getRotationMatrix();
+//			Mat T = stereoCalibrator.getTranslationVector();
 			
 			outs.clear();
 			outs << "--- stereo calibration: " <<
@@ -260,9 +312,21 @@ void processRenderEvent (int eventID) {
 		
 			disparityMapCalculator.compute(image1, image2, image1r, image2r, disparityMap);
 			
-			setTextureFromMat(image1r, g_Cam1TexturePointer);
-			setTextureFromMat(image2r, g_Cam2TexturePointer);
+			flip(image1r, l1, 1);
+			flip(image2r, r1, 1);
+			flip(l1, image1, 0);
+			flip(r1, image2, 0);
+			flip(disparityMap, l1, 1);
+			flip(l1, disparityMap, 0);
+			setTextureFromMat(image1, g_Cam1TexturePointer);
+			setTextureFromMat(image2, g_Cam2TexturePointer);
 			setTextureFromMat(disparityMap, g_Out1TexturePointer);
+		}
+		break;
+		
+		case 4: {
+			//odometry
+//			calcOdometry();
 		}
 		break;
 		
@@ -334,6 +398,10 @@ extern "C" void	UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnit
 	image2.create(imageSize, CV_8UC4);
 	image1r.create(imageSize, CV_8UC4);
 	image2r.create(imageSize, CV_8UC4);
+	l1.create(imageSize, CV_8UC4);
+	l2.create(imageSize, CV_8UC4);
+	r1.create(imageSize, CV_8UC4);
+	r2.create(imageSize, CV_8UC4);
 	
 	camera1Calibrator.set(boardSize, squareSize, imageSize);
 	camera2Calibrator.set(boardSize, squareSize, imageSize);
