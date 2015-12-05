@@ -86,9 +86,6 @@ public class GameManager : MonoBehaviour {
 		onBMParametersChange ();
 	}
 
-//	public void onQuadrocopterPosChange () {
-//	}
-
 	public void onBMParametersChange () {
 
 		quadrocopterPos.position = new Vector3(0, 2, quadrocopterPosZSlider.value);
