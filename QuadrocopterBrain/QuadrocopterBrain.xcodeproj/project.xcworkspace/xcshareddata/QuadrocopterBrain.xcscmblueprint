@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "D225914B0B27BE438ABB279122A8996E95D8B9E9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "D225914B0B27BE438ABB279122A8996E95D8B9E9" : 0,
+    "DEF827AEE61008D72BA753A95234A28088662AAB" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A9005889-C33E-4DF9-A7C0-326F21AD84B3",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "D225914B0B27BE438ABB279122A8996E95D8B9E9" : "QuadrocopterHabr\/",
+    "DEF827AEE61008D72BA753A95234A28088662AAB" : "..\/build\/tensorflow"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "QuadrocopterBrain",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "QuadrocopterBrain\/QuadrocopterBrain.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/parilo\/quadrocopter-unity-opencv.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D225914B0B27BE438ABB279122A8996E95D8B9E9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/tensorflow\/tensorflow",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DEF827AEE61008D72BA753A95234A28088662AAB"
+    }
+  ]
+}

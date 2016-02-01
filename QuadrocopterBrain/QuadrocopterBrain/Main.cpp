@@ -18,6 +18,7 @@
 #include "StereoCalibrator.hpp"
 #include "CameraUndistortion.hpp"
 #include "DisparityMapCalculator.hpp"
+#include "QuadrocopterBrain.hpp"
 
 // --------------------------------------------------------------------------
 // Include headers for the graphics APIs we support
@@ -49,6 +50,8 @@
 	#endif
 #endif
 
+using namespace std;
+
 // Prints a string
 void DebugLog (std::string str)
 {
@@ -59,6 +62,136 @@ void DebugLog (std::string str)
 #endif
 }
 
+
+QuadrocopterBrain quadrocopterBrain;
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetQuadrocopterState(
+	double currentRotW,
+	double currentRotX,
+	double currentRotY,
+	double currentRotZ,
+
+	double currentXVal,
+	double currentYVal,
+	double currentZVal,
+
+	double targetXVal,
+	double targetYVal,
+	double targetZVal,
+
+	double motor1powerVal,
+	double motor2powerVal,
+	double motor3powerVal,
+	double motor4powerVal
+) {
+
+	Observation state (
+		currentRotW,
+		currentRotX,
+		currentRotY,
+		currentRotZ,
+		
+		currentXVal,
+		currentYVal,
+		currentZVal,
+
+		targetXVal,
+		targetYVal,
+		targetZVal,
+
+		motor1powerVal,
+		motor2powerVal,
+		motor3powerVal,
+		motor4powerVal
+	);
+
+	quadrocopterBrain.setState(state);
+}
+
+extern "C" long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetQuadrocopterAction() {
+	long action = quadrocopterBrain.getAction();
+	cerr << "--- get action: " << action << endl;
+	return action;
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExperience (
+	double currentRotWPrev,
+	double currentRotXPrev,
+	double currentRotYPrev,
+	double currentRotZPrev,
+
+	double targetXValPrev,
+	double targetYValPrev,
+	double targetZValPrev,
+
+	double motor1powerValPrev,
+	double motor2powerValPrev,
+	double motor3powerValPrev,
+	double motor4powerValPrev,
+	
+	double currentRotWNext,
+	double currentRotXNext,
+	double currentRotYNext,
+	double currentRotZNext,
+
+	double targetXValNext,
+	double targetYValNext,
+	double targetZValNext,
+
+	double motor1powerValNext,
+	double motor2powerValNext,
+	double motor3powerValNext,
+	double motor4powerValNext,
+	
+	double reward,
+	long action
+) {
+
+	Observation prevState (
+		currentRotWPrev,
+		currentRotXPrev,
+		currentRotYPrev,
+		currentRotZPrev,
+		
+		0,0,0,
+
+		targetXValPrev,
+		targetYValPrev,
+		targetZValPrev,
+
+		motor1powerValPrev,
+		motor2powerValPrev,
+		motor3powerValPrev,
+		motor4powerValPrev
+	);
+	
+	Observation nextState (
+		currentRotWNext,
+		currentRotXNext,
+		currentRotYNext,
+		currentRotZNext,
+
+		0,0,0,
+
+		targetXValNext,
+		targetYValNext,
+		targetZValNext,
+
+		motor1powerValNext,
+		motor2powerValNext,
+		motor3powerValNext,
+		motor4powerValNext
+	);
+	
+	ExperienceItem expItem (
+		prevState,
+		nextState,
+		reward,
+		action
+	);
+
+	quadrocopterBrain.storeExperience(expItem);
+}
 
 	
 //переменные для хранения идентификатора текстуры
@@ -273,7 +406,10 @@ void processRenderEvent (int eventID) {
 }
 
 static void UNITY_INTERFACE_API OnRenderEvent(int eventID) {
-	processRenderEvent(eventID);
+	cerr << "--- OnRenderEvent" << endl;
+//	processRenderEvent(eventID);
+	quadrocopterBrain.act();
+//	cerr << "--- act action: " << quadrocopterBrain.getAction() << endl;
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API setBMParameters (

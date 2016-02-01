@@ -25,6 +25,24 @@ public class quadrocopterScript : MonoBehaviour {
 
 	private Quaternion prevRotation = new Quaternion (0, 1, 0, 0);
 
+//	private double motor1power = 0;
+//	private double motor2power = 0;
+//	private double motor3power = 0;
+//	private double motor4power = 0;
+	private motorScript[] motors;
+
+	void Awake () {
+		motors = new motorScript[4];
+		motors [0] = GameObject.Find ("Motor1").GetComponent<motorScript> ();
+		motors [1] = GameObject.Find ("Motor2").GetComponent<motorScript> ();
+		motors [2] = GameObject.Find ("Motor3").GetComponent<motorScript> ();
+		motors [3] = GameObject.Find ("Motor4").GetComponent<motorScript> ();
+		incMotorPower (0, 22);
+		incMotorPower (1, 22);
+		incMotorPower (2, 22);
+		incMotorPower (3, 22);
+	}
+
 	void readRotation () {
 		
 		//фактическая ориентация нашего квадрокоптера,
@@ -36,6 +54,34 @@ public class quadrocopterScript : MonoBehaviour {
 		yaw = rot.y;
 		roll = rot.z;
 
+	}
+
+	public Quaternion getRotation () {
+		return GameObject.Find ("Frame").GetComponent<Transform> ().rotation;
+	}
+
+	public Vector3 getPosition () {
+		return GameObject.Find ("Frame").GetComponent<Transform> ().position;
+	}
+
+	public Vector4 getMotorsPower () {
+		return new Vector4 (
+			(float) motors [0].power,
+			(float) motors [1].power,
+			(float) motors [2].power,
+			(float) motors [3].power
+		);
+	}
+
+	public void incMotorPower (int motorIndex, double delta) {
+		motors [motorIndex].power += delta;
+	}
+
+	public void setMotorsPower (double power) {
+		motors [0].power = power;
+		motors [1].power = power;
+		motors [2].power = power;
+		motors [3].power = power;
 	}
 
 	//функция стабилизации квадрокоптера
@@ -105,10 +151,10 @@ public class quadrocopterScript : MonoBehaviour {
 	}
 
 	//как советуют в доке по Unity вычисления проводим в FixedUpdate, а не в Update
-	void FixedUpdate () {
-		readRotation ();
-		stabilize ();
-	}
+//	void FixedUpdate () {
+//		readRotation ();
+//		stabilize ();
+//	}
 	
 }
 
