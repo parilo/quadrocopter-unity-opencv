@@ -28,18 +28,18 @@ public:
 	*/
 	long control (const Observation& ob);
 	
-	void train (const std::deque<ExperienceItem>& experience);
+	void train (const std::vector<ExperienceItem>& experience);
 	
 private:
 
 	int actionsExecutedSoFar = 0;
 	
 	//linear annealing parameters
-	int explorationPeriod = 5000;
+	int explorationPeriod = 30000;
 	double randomActionProbabilityInitial = 1.0;
 	double randomActionProbabilityFinal = 0.05;
 	
-	int numActions = 12;
+	int numActions = 8;
 	
 	//train
 	int minibatchSize = 32;

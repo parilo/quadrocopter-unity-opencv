@@ -18,6 +18,8 @@ class QuadrocopterBrain {
 
 public:
 	
+	QuadrocopterBrain ();
+	
 	void setState (const Observation& state);
 	
 	void act ();
@@ -34,11 +36,13 @@ private:
 
 	Observation currentState;
 	BrainDiscreteDeepQ brain;
-	std::deque<ExperienceItem> experience;
+//	std::deque<ExperienceItem> experience;
+	std::vector<ExperienceItem> experience;
+	int experienceI = 0;
 
 	long actExecuted = 0;
 	int storeEveryNth = 5;
-	int trainEveryNth = 5;
+	int trainEveryNth = 1;
 	int maxExperience = 30000;
 
 };

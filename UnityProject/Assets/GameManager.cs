@@ -54,10 +54,13 @@ public class GameManager : MonoBehaviour {
 
 	void Awake() {
 
+//		Time.timeScale = 2f;
+//		Time.fixedDeltaTime = 0.02f * Time.timeScale;
+
 		quadrocopterAction = -1;
 		quadrocopterCurrentState = new double [11];
 		quadrocopterPreviousState = new double [11];
-		quadrocopterTargetPos = new Vector3 (0, 4, 0);
+		quadrocopterTargetPos = new Vector3 (0, 0.3f, 0);
 
 		quadrocopter = GameObject.Find ("/Quadrocopter").GetComponent<quadrocopterScript> ();
 
@@ -162,11 +165,18 @@ public class GameManager : MonoBehaviour {
 //		);
 	}
 
-	//	void FixedUpdate () {
-	//		readQuadrocopterState ();
-	//	}
+	private int fixedUpdateCount = 0;
+
+	void FixedUpdate () {
+//		fixedUpdateCount++;
+//		readQuadrocopterState ();
+	}
 
 	void Update () {
+
+//		print ("fixed update: " + fixedUpdateCount);
+//		fixedUpdateCount = 0;
+
 		//		if (frameIndex < cameraCalibSamplesCount) {
 		//			Transform t = GameObject.Find ("/CameraCalibrationPattern").GetComponent<Transform> ();
 		//			t.rotation = 
@@ -294,42 +304,31 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void performQuadrocopterAction (long action) {
+		double strength = 0.05;
 		switch (action) {
 		case 0:
-			quadrocopter.incMotorPower (0, 0.1);
+			quadrocopter.incMotorPower (0, strength);
 			break;
 		case 1:
-			quadrocopter.incMotorPower (0, -0.1);
+			quadrocopter.incMotorPower (0, -strength);
 			break;
 		case 2:
-			//не делать ничего первым мотором
+			quadrocopter.incMotorPower (1, strength);
 			break;
 		case 3:
-			quadrocopter.incMotorPower (1, 0.1);
+			quadrocopter.incMotorPower (1, -strength);
 			break;
 		case 4:
-			quadrocopter.incMotorPower (1, -0.1);
+			quadrocopter.incMotorPower (2, strength);
 			break;
 		case 5:
-			//не делать ничего вторым мотором
+			quadrocopter.incMotorPower (2, -strength);
 			break;
 		case 6:
-			quadrocopter.incMotorPower (2, 0.1);
+			quadrocopter.incMotorPower (3, strength);
 			break;
 		case 7:
-			quadrocopter.incMotorPower (2, -0.1);
-			break;
-		case 8:
-			//не делать ничего третьим мотором
-			break;
-		case 9:
-			quadrocopter.incMotorPower (3, 0.1);
-			break;
-		case 10:
-			quadrocopter.incMotorPower (3, -0.1);
-			break;
-		case 11:
-			//не делать ничего четвертым мотором
+			quadrocopter.incMotorPower (3, -strength);
 			break;
 		}
 	}
@@ -342,11 +341,33 @@ public class GameManager : MonoBehaviour {
 
 		long prevQuadrocopterAction = quadrocopterAction;
 
-		Vector3 rPrev = quadrocopterPrevPos - quadrocopterTargetPos;
-		Vector3 rCur = quadrocopterCurPos - quadrocopterTargetPos;
+		//награда приближение к позиции
+		double nextDist = Vector3.Magnitude (quadrocopterTargetPos - quadrocopterCurPos);
+		double prevDist = Vector3.Magnitude (quadrocopterTargetPos - quadrocopterPrevPos);
+		reward = 500 * (prevDist - nextDist);
+//		if (prevDist < nextDist) {
+//			reward = -5;
+//		} else {
+//			reward = 5;
+//		}
+		if (Math.Abs (prevDist - nextDist) > 1) {
+			reward = 0;
+		}
+//		print ("prevDist: " + prevDist + " next dist: " + nextDist + "reward: " + reward);
 
-		Vector3 move = rCur - rPrev;
-		reward = 10 * Vector3.Dot (move, - rPrev.normalized);
+		//награда за вертикальное положение
+//		double cos = Quaternion.Dot (quadrocopter.getRotation (), Quaternion.Euler (0, 0, 0));
+//		reward = - 5 * Math.Sqrt ((1 - cos)*0.5) + 0.2;
+//		if (reward > 0)
+//			reward *= 20;
+//		reward = - 5 * Math.Sqrt (1 - cos * cos) + 1.5;
+
+//		//награда за приближение к указаной точке
+//		Vector3 rPrev = quadrocopterPrevPos - quadrocopterTargetPos;
+//		Vector3 rCur = quadrocopterCurPos - quadrocopterTargetPos;
+//
+//		Vector3 move = rCur - rPrev;
+//		reward = 10 * Vector3.Dot (move, - rPrev.normalized);
 
 //		print ("prev dist " + rPrev.x + " " + rPrev.y + " " + rPrev.z + " " );
 //		print ("cur dist " + rCur.x + " " + rCur.y + " " + rCur.z + " " );
@@ -398,7 +419,8 @@ public class GameManager : MonoBehaviour {
 	private IEnumerator CallPluginAtEndOfFrames () {
 		while (true) {
 			// Подождать пока выполнится рендеринг кадра
-			yield return new WaitForEndOfFrame();
+//			yield return new WaitForEndOfFrame();
+			yield return new WaitForFixedUpdate ();
 
 			// Передаем управление в плагин
 			// Передающийся int можно использовать например для
@@ -419,31 +441,29 @@ public class GameManager : MonoBehaviour {
 //				action = 3;
 //			} 
 
-			if (frameIndex % 4  == 0) {
+			action = 4;
 
-				action = 4;
+			readQuadrocopterState (quadrocopterCurrentState);
+//			collect reward
+			calcReward ();
+//			store experience
+			storeExperience ();
 
-				readQuadrocopterState (quadrocopterCurrentState);
-	//			collect reward
-				calcReward ();
-	//			store experience
-				storeExperience ();
+			sendQuadrocopterState (quadrocopterCurrentState);
 
-				sendQuadrocopterState (quadrocopterCurrentState);
+			//GL.IssuePluginEvent(GetRenderEventFunc(), action);
+			QuadrocopterBrainAct ();
 
-				GL.IssuePluginEvent(GetRenderEventFunc(), action);
+			quadrocopterAction = GetQuadrocopterAction ();
+			print ("action: " + quadrocopterAction);
+			performQuadrocopterAction (quadrocopterAction);
 
-				quadrocopterAction = GetQuadrocopterAction ();
-				performQuadrocopterAction (quadrocopterAction);
-
-				quadrocopterCurrentState.CopyTo (quadrocopterPreviousState, 0);
-				quadrocopterPrevPos.Set (
-					quadrocopterCurPos.x,
-					quadrocopterCurPos.y,
-					quadrocopterCurPos.z
-				);
-			
-			}
+			quadrocopterCurrentState.CopyTo (quadrocopterPreviousState, 0);
+			quadrocopterPrevPos.Set (
+				quadrocopterCurPos.x,
+				quadrocopterCurPos.y,
+				quadrocopterCurPos.z
+			);
 
 			frameIndex++;
 		}
@@ -621,6 +641,13 @@ private static extern void StoreQuadrocopterExperience (
 	double reward,
 	long action
 );
+
+#if UNITY_IPHONE && !UNITY_EDITOR
+[DllImport ("__Internal")]
+#else
+[DllImport("QuadrocopterBrain")]
+#endif
+private static extern void QuadrocopterBrainAct();
 
 
 }

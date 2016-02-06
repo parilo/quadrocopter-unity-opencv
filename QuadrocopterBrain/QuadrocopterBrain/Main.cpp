@@ -91,9 +91,9 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetQuadrocopterState(
 		currentRotY,
 		currentRotZ,
 		
-		currentXVal,
-		currentYVal,
-		currentZVal,
+//		currentXVal,
+//		currentYVal,
+//		currentZVal,
 
 		targetXVal,
 		targetYVal,
@@ -112,6 +112,10 @@ extern "C" long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetQuadrocopterAction
 	long action = quadrocopterBrain.getAction();
 	cerr << "--- get action: " << action << endl;
 	return action;
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API QuadrocopterBrainAct() {
+	quadrocopterBrain.act();
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExperience (
@@ -153,7 +157,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExpe
 		currentRotYPrev,
 		currentRotZPrev,
 		
-		0,0,0,
+//		0,0,0,
 
 		targetXValPrev,
 		targetYValPrev,
@@ -171,7 +175,7 @@ extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExpe
 		currentRotYNext,
 		currentRotZNext,
 
-		0,0,0,
+//		0,0,0,
 
 		targetXValNext,
 		targetYValNext,

@@ -31,6 +31,8 @@ public class quadrocopterScript : MonoBehaviour {
 //	private double motor4power = 0;
 	private motorScript[] motors;
 
+	private Transform frameTransform;
+
 	void Awake () {
 		motors = new motorScript[4];
 		motors [0] = GameObject.Find ("Motor1").GetComponent<motorScript> ();
@@ -41,6 +43,8 @@ public class quadrocopterScript : MonoBehaviour {
 		incMotorPower (1, 22);
 		incMotorPower (2, 22);
 		incMotorPower (3, 22);
+
+		frameTransform = GameObject.Find ("Frame").GetComponent<Transform> ();
 	}
 
 	void readRotation () {
@@ -57,11 +61,11 @@ public class quadrocopterScript : MonoBehaviour {
 	}
 
 	public Quaternion getRotation () {
-		return GameObject.Find ("Frame").GetComponent<Transform> ().rotation;
+		return frameTransform.rotation;
 	}
 
 	public Vector3 getPosition () {
-		return GameObject.Find ("Frame").GetComponent<Transform> ().position;
+		return frameTransform.position;
 	}
 
 	public Vector4 getMotorsPower () {

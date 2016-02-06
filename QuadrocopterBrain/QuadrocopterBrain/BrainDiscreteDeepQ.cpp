@@ -31,7 +31,7 @@ BrainDiscreteDeepQ::BrainDiscreteDeepQ () {
 		std::cerr << "tf error: " << status.ToString() << "\n";
 	}
 	
-	Tensor observation (DT_FLOAT, TensorShape({1, 13}));
+	Tensor observation (DT_FLOAT, TensorShape({1, 11}));
 	std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
 		{ "taking_action/observation", observation }
 	};
@@ -72,24 +72,20 @@ long BrainDiscreteDeepQ::control (const Observation& ob) {
 		actionIndex = Lib::randInt(0, numActions-1);
 	} else {
 		
-		Tensor observation (DT_FLOAT, TensorShape({1, 14}));
+		Tensor observation (DT_FLOAT, TensorShape({1, ob.getSize()}));
 		observation.matrix<float>()(0, 0) = (float) ob.currentRotW;
 		observation.matrix<float>()(0, 1) = (float) ob.currentRotX;
 		observation.matrix<float>()(0, 2) = (float) ob.currentRotY;
 		observation.matrix<float>()(0, 3) = (float) ob.currentRotZ;
 
-		observation.matrix<float>()(0, 4) = (float) ob.currentX;
-		observation.matrix<float>()(0, 5) = (float) ob.currentY;
-		observation.matrix<float>()(0, 6) = (float) ob.currentZ;
+		observation.matrix<float>()(0, 4) = (float) ob.targetX;
+		observation.matrix<float>()(0, 5) = (float) ob.targetY;
+		observation.matrix<float>()(0, 6) = (float) ob.targetZ;
 
-		observation.matrix<float>()(0, 7) = (float) ob.targetX;
-		observation.matrix<float>()(0, 8) = (float) ob.targetY;
-		observation.matrix<float>()(0, 9) = (float) ob.targetZ;
-
-		observation.matrix<float>()(0, 10) = (float) ob.motor1power;
-		observation.matrix<float>()(0, 11) = (float) ob.motor2power;
-		observation.matrix<float>()(0, 12) = (float) ob.motor3power;
-		observation.matrix<float>()(0, 13) = (float) ob.motor4power;
+		observation.matrix<float>()(0, 7) = (float) ob.motor1power;
+		observation.matrix<float>()(0, 8) = (float) ob.motor2power;
+		observation.matrix<float>()(0, 9) = (float) ob.motor3power;
+		observation.matrix<float>()(0, 10) = (float) ob.motor4power;
 
 		std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
 			{ "taking_action/observation", observation }
@@ -130,21 +126,26 @@ long BrainDiscreteDeepQ::control (const Observation& ob) {
 }
 
 void getRandomSubArray (
-	const std::deque<ExperienceItem>& allItems,
+	const std::vector<ExperienceItem>& allItems,
 	std::vector<const ExperienceItem*>& subArray,
 	long subArrayLength
 ) {
-	double pickProbability = subArrayLength * 1.0 / allItems.size();
-	for (const ExperienceItem& item : allItems) {
-		if (Lib::randDouble(0, 1) < pickProbability) {
-			subArray.push_back(&item);
-			if (subArray.size() == subArrayLength) return;
-		}
+	std::vector<long> indices = Lib::getRandomNonRepeatSeries(subArrayLength, 0, allItems.size()-1);
+	for (auto index : indices) {
+		subArray.push_back(&allItems[index]);
 	}
-	
-	if (subArray.size() < subArrayLength) {
-		getRandomSubArray(allItems, subArray, subArrayLength);
-	}
+
+//	double pickProbability = subArrayLength * 1.0 / allItems.size();
+//	for (const ExperienceItem& item : allItems) {
+//		if (Lib::randDouble(0, 1) < pickProbability) {
+//			subArray.push_back(&item);
+//			if (subArray.size() == subArrayLength) return;
+//		}
+//	}
+//	
+//	if (subArray.size() < subArrayLength) {
+//		getRandomSubArray(allItems, subArray, subArrayLength);
+//	}
 }
 
 void printTensor (const Tensor& t) {
@@ -159,7 +160,7 @@ void printTensor (const Tensor& t) {
 	}
 }
 
-void BrainDiscreteDeepQ::train (const std::deque<ExperienceItem>& experience) {
+void BrainDiscreteDeepQ::train (const std::vector<ExperienceItem>& experience) {
 
 	if (experience.size() < minibatchSize) return;
 	
@@ -186,38 +187,30 @@ void BrainDiscreteDeepQ::train (const std::deque<ExperienceItem>& experience) {
 		observations.matrix<float>()(expI, 1) = expItem->prevState.currentRotX;
 		observations.matrix<float>()(expI, 2) = expItem->prevState.currentRotY;
 		observations.matrix<float>()(expI, 3) = expItem->prevState.currentRotZ;
-		
-		observations.matrix<float>()(expI, 4) = expItem->prevState.currentX;
-		observations.matrix<float>()(expI, 5) = expItem->prevState.currentY;
-		observations.matrix<float>()(expI, 6) = expItem->prevState.currentZ;
 
-		observations.matrix<float>()(expI, 7) = expItem->prevState.targetX;
-		observations.matrix<float>()(expI, 8) = expItem->prevState.targetY;
-		observations.matrix<float>()(expI, 9) = expItem->prevState.targetZ;
+		observations.matrix<float>()(expI, 4) = expItem->prevState.targetX;
+		observations.matrix<float>()(expI, 5) = expItem->prevState.targetY;
+		observations.matrix<float>()(expI, 6) = expItem->prevState.targetZ;
 
-		observations.matrix<float>()(expI, 10) = expItem->prevState.motor1power;
-		observations.matrix<float>()(expI, 11) = expItem->prevState.motor2power;
-		observations.matrix<float>()(expI, 12) = expItem->prevState.motor3power;
-		observations.matrix<float>()(expI, 13) = expItem->prevState.motor4power;
+		observations.matrix<float>()(expI, 7) = expItem->prevState.motor1power;
+		observations.matrix<float>()(expI, 8) = expItem->prevState.motor2power;
+		observations.matrix<float>()(expI, 9) = expItem->prevState.motor3power;
+		observations.matrix<float>()(expI, 10) = expItem->prevState.motor4power;
 
 
 		newObservations.matrix<float>()(expI, 0) = expItem->nextState.currentRotW;
 		newObservations.matrix<float>()(expI, 1) = expItem->nextState.currentRotX;
 		newObservations.matrix<float>()(expI, 2) = expItem->nextState.currentRotY;
 		newObservations.matrix<float>()(expI, 3) = expItem->nextState.currentRotZ;
-		
-		newObservations.matrix<float>()(expI, 4) = expItem->nextState.currentX;
-		newObservations.matrix<float>()(expI, 5) = expItem->nextState.currentY;
-		newObservations.matrix<float>()(expI, 6) = expItem->nextState.currentZ;
 
-		newObservations.matrix<float>()(expI, 7) = expItem->nextState.targetX;
-		newObservations.matrix<float>()(expI, 8) = expItem->nextState.targetY;
-		newObservations.matrix<float>()(expI, 9) = expItem->nextState.targetZ;
+		newObservations.matrix<float>()(expI, 4) = expItem->nextState.targetX;
+		newObservations.matrix<float>()(expI, 5) = expItem->nextState.targetY;
+		newObservations.matrix<float>()(expI, 6) = expItem->nextState.targetZ;
 
-		newObservations.matrix<float>()(expI, 10) = expItem->nextState.motor1power;
-		newObservations.matrix<float>()(expI, 11) = expItem->nextState.motor2power;
-		newObservations.matrix<float>()(expI, 12) = expItem->nextState.motor3power;
-		newObservations.matrix<float>()(expI, 13) = expItem->nextState.motor4power;
+		newObservations.matrix<float>()(expI, 7) = expItem->nextState.motor1power;
+		newObservations.matrix<float>()(expI, 8) = expItem->nextState.motor2power;
+		newObservations.matrix<float>()(expI, 9) = expItem->nextState.motor3power;
+		newObservations.matrix<float>()(expI, 10) = expItem->nextState.motor4power;
 		
 		actionMasks.matrix<float>()(expI, expItem->action) = 1;
 		rewards.matrix<float>()(expI, 0) = (float) expItem->reward;

@@ -8,21 +8,30 @@
 
 #include "QuadrocopterBrain.hpp"
 
+QuadrocopterBrain::QuadrocopterBrain () {
+	experience.reserve(maxExperience);
+}
+
 void QuadrocopterBrain::setState (const Observation& state) {
 	currentState = state;
 }
 
 void QuadrocopterBrain::act () {
-	std::cerr << "--- act" << std::endl;
+	std::cerr << "--- act: " << actExecuted << std::endl;
 	
 	choosedAction = brain.control(currentState);
-	train();
+//	if (actExecuted % 4000 < 3000) {
+		train();
+//	}
 	
 	actExecuted++;
 }
 
 void QuadrocopterBrain::train () {
-	if (actExecuted % trainEveryNth != 0) return;
+	if (
+		actExecuted % trainEveryNth != 0 ||
+		experience.size() < 200
+	) return;
 	
 	brain.train(experience);
 }
@@ -33,8 +42,14 @@ long QuadrocopterBrain::getAction () {
 
 void QuadrocopterBrain::storeExperience (const ExperienceItem& expItem) {
 	if (actExecuted % storeEveryNth != 0) return;
+
+	if (experience.size() < maxExperience) {
+		experience.push_back(expItem);
+	} else {
+		experience [experienceI] = expItem;
+		experienceI++;
+		experienceI %= maxExperience;
+	}
 	
-	experience.push_back(expItem);
-	if (experience.size() > maxExperience) experience.pop_front();
-	std::cerr << "--- storeExperience: " << experience.size() << std::endl;
+	std::cerr << "--- storeExperience: " << experienceI << std::endl;
 }

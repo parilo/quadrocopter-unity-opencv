@@ -27,23 +27,25 @@ public class ReinitOnCollision : MonoBehaviour {
 
 	void resetQuadrocopter () {
 
-		frame.MovePosition (new Vector3 (0, 4, 0));
+		float y = 0.3f;
+
+		frame.MovePosition (new Vector3 (0, y, 0));
 		frame.MoveRotation (Quaternion.Euler (0, 0, 0));
 		frame.velocity = new Vector3(0, 0, 0);
 
-		motor1.MovePosition (new Vector3 (-0.22f, 4, 0.22f));
+		motor1.MovePosition (new Vector3 (-0.22f, y, 0.22f));
 		motor1.MoveRotation (Quaternion.Euler (10, 45, 0));
 		motor1.velocity = new Vector3(0, 0, 0);
 
-		motor2.MovePosition (new Vector3 (0.22f, 4, 0.22f));
+		motor2.MovePosition (new Vector3 (0.22f, y, 0.22f));
 		motor2.MoveRotation (Quaternion.Euler (0, 45, 10));
 		motor2.velocity = new Vector3(0, 0, 0);
 
-		motor3.MovePosition (new Vector3 (0.22f, 4, -0.22f));
+		motor3.MovePosition (new Vector3 (0.22f, y, -0.22f));
 		motor3.MoveRotation (Quaternion.Euler (350, 45, 0));
 		motor3.velocity = new Vector3(0, 0, 0);
 
-		motor4.MovePosition (new Vector3 (-0.22f, 4, -0.22f));
+		motor4.MovePosition (new Vector3 (-0.22f, y, -0.22f));
 		motor4.MoveRotation (Quaternion.Euler (0, 45, 350));
 		motor4.velocity = new Vector3(0, 0, 0);
 

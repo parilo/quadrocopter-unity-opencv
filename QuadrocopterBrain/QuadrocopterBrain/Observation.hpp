@@ -21,9 +21,9 @@ public:
 		double currentRotY,
 		double currentRotZ,
 
-		double currentX,
-		double currentY,
-		double currentZ,
+//		double currentX,
+//		double currentY,
+//		double currentZ,
 
 		double targetX,
 		double targetY,
@@ -46,9 +46,9 @@ public:
 //		double targetRotY,
 //		double targetRotZ,
 
-		double currentX,
-		double currentY,
-		double currentZ,
+//		double currentX,
+//		double currentY,
+//		double currentZ,
 
 		double targetX,
 		double targetY,
@@ -70,9 +70,9 @@ public:
 //	double targetRotY;
 //	double targetRotZ;
 
-	double currentX;
-	double currentY;
-	double currentZ;
+//	double currentX;
+//	double currentY;
+//	double currentZ;
 
 	double targetX;
 	double targetY;
@@ -83,7 +83,7 @@ public:
 	double motor3power;
 	double motor4power;
 	
-	int getSize () const { return 14; }
+	int getSize () const { return 11; }
 	void print () const;
 
 };

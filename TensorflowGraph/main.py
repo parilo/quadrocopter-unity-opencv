@@ -24,10 +24,6 @@ journalist = tf.train.SummaryWriter("/Users/anton/devel/unity/QuadrocopterHabr/T
 # double currentRotY,
 # double currentRotZ,
 #
-# double currentX,
-# double currentY,
-# double currentZ,
-#
 # double targetX,
 # double targetY,
 # double targetZ,
@@ -36,14 +32,14 @@ journalist = tf.train.SummaryWriter("/Users/anton/devel/unity/QuadrocopterHabr/T
 # double motor2powerVal,
 # double motor3powerVal,
 # double motor4powerVal
-observation_size = 14;
+observation_size = 11;
 
 # actions
-# increase, decrease, do nothing
-# 3 actions per motor
-num_actions = 12;
+# increase, decrease
+# 2 actions per motor
+num_actions = 8;
 
-brain = MLP([observation_size,], [100, 100, num_actions], 
+brain = MLP([observation_size,], [40, 40, num_actions], 
             [tf.tanh, tf.tanh, tf.identity])
 
 # The optimizer to use. Here we use RMSProp as recommended

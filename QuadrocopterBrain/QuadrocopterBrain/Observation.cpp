@@ -15,9 +15,9 @@ currentRotX (0),
 currentRotY (0),
 currentRotZ (0),
 
-currentX (0),
-currentY (0),
-currentZ (0),
+//currentX (0),
+//currentY (0),
+//currentZ (0),
 
 targetX (0),
 targetY (0),
@@ -36,9 +36,9 @@ Observation::Observation (
 	double currentRotY,
 	double currentRotZ,
 
-	double currentX,
-	double currentY,
-	double currentZ,
+//	double currentX,
+//	double currentY,
+//	double currentZ,
 
 	double targetX,
 	double targetY,
@@ -55,9 +55,9 @@ currentRotX (currentRotX),
 currentRotY (currentRotY),
 currentRotZ (currentRotZ),
 
-currentX (currentX),
-currentY (currentY),
-currentZ (currentZ),
+//currentX (currentX),
+//currentY (currentY),
+//currentZ (currentZ),
 
 targetX (targetX),
 targetY (targetY),
@@ -82,9 +82,9 @@ void Observation::set (
 //	double targetRotY,
 //	double targetRotZ,
 
-	double currentX,
-	double currentY,
-	double currentZ,
+//	double currentX,
+//	double currentY,
+//	double currentZ,
 
 	double targetX,
 	double targetY,
@@ -106,9 +106,9 @@ void Observation::set (
 //	this->targetRotY = targetRotY;
 //	this->targetRotZ = targetRotZ;
 	
-	this->currentX = currentX;
-	this->currentY = currentY;
-	this->currentZ = currentZ;
+//	this->currentX = currentX;
+//	this->currentY = currentY;
+//	this->currentZ = currentZ;
 	
 	this->targetX = targetX;
 	this->targetY = targetY;
@@ -128,9 +128,9 @@ void Observation::print () const {
 	this->currentRotY << " " <<
 	this->currentRotZ << " " <<
 	
-	this->currentX << " " <<
-	this->currentY << " " <<
-	this->currentZ << " " <<
+//	this->currentX << " " <<
+//	this->currentY << " " <<
+//	this->currentZ << " " <<
 	
 	this->targetX << " " <<
 	this->targetY << " " <<
