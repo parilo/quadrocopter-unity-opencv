@@ -39,10 +39,10 @@ public class quadrocopterScript : MonoBehaviour {
 		motors [1] = GameObject.Find ("Motor2").GetComponent<motorScript> ();
 		motors [2] = GameObject.Find ("Motor3").GetComponent<motorScript> ();
 		motors [3] = GameObject.Find ("Motor4").GetComponent<motorScript> ();
-		incMotorPower (0, 22);
-		incMotorPower (1, 22);
-		incMotorPower (2, 22);
-		incMotorPower (3, 22);
+//		incMotorPower (0, 23);
+		incMotorPower (1, 23);
+//		incMotorPower (2, 23);
+		incMotorPower (3, 23);
 
 		frameTransform = GameObject.Find ("Frame").GetComponent<Transform> ();
 	}
@@ -64,6 +64,10 @@ public class quadrocopterScript : MonoBehaviour {
 		return frameTransform.rotation;
 	}
 
+	public void setRotation (Quaternion rot) {
+		frameTransform.rotation = rot;
+	}
+
 	public Vector3 getPosition () {
 		return frameTransform.position;
 	}
@@ -82,9 +86,9 @@ public class quadrocopterScript : MonoBehaviour {
 	}
 
 	public void setMotorsPower (double power) {
-		motors [0].power = power;
+//		motors [0].power = power;
 		motors [1].power = power;
-		motors [2].power = power;
+//		motors [2].power = power;
 		motors [3].power = power;
 	}
 

@@ -66,44 +66,12 @@ void DebugLog (std::string str)
 QuadrocopterBrain quadrocopterBrain;
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API SetQuadrocopterState(
-	double currentRotW,
-	double currentRotX,
-	double currentRotY,
-	double currentRotZ,
-
-	double currentXVal,
-	double currentYVal,
-	double currentZVal,
-
-	double targetXVal,
-	double targetYVal,
-	double targetZVal,
-
-	double motor1powerVal,
-	double motor2powerVal,
-	double motor3powerVal,
-	double motor4powerVal
+	float* stateData
 ) {
 
-	Observation state (
-		currentRotW,
-		currentRotX,
-		currentRotY,
-		currentRotZ,
-		
-//		currentXVal,
-//		currentYVal,
-//		currentZVal,
-
-		targetXVal,
-		targetYVal,
-		targetZVal,
-
-		motor1powerVal,
-		motor2powerVal,
-		motor3powerVal,
-		motor4powerVal
-	);
+	std::vector<float> stateV;
+	stateV.assign(stateData, stateData + 11);
+	Observation state (stateV);
 
 	quadrocopterBrain.setState(state);
 }
@@ -114,84 +82,68 @@ extern "C" long UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetQuadrocopterAction
 	return action;
 }
 
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API GetQuadrocopterActionsScores(float* actionsScoredVals) {
+	auto actionsScores = quadrocopterBrain.getActionsScores();
+//	cerr << "--- get actions scores: " << endl;
+	for (int i=0; i<8; i++) {
+		actionsScoredVals [i] = actionsScores [i];
+//		cerr << "--- " << actionsScoredVals [i] << endl;
+	}
+}
+
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API QuadrocopterBrainAct() {
 	quadrocopterBrain.act();
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExperience (
-	double currentRotWPrev,
-	double currentRotXPrev,
-	double currentRotYPrev,
-	double currentRotZPrev,
-
-	double targetXValPrev,
-	double targetYValPrev,
-	double targetZValPrev,
-
-	double motor1powerValPrev,
-	double motor2powerValPrev,
-	double motor3powerValPrev,
-	double motor4powerValPrev,
-	
-	double currentRotWNext,
-	double currentRotXNext,
-	double currentRotYNext,
-	double currentRotZNext,
-
-	double targetXValNext,
-	double targetYValNext,
-	double targetZValNext,
-
-	double motor1powerValNext,
-	double motor2powerValNext,
-	double motor3powerValNext,
-	double motor4powerValNext,
-	
+	float* prevStateData,
+	float* nextStateData,
 	double reward,
 	long action
 ) {
 
-	Observation prevState (
-		currentRotWPrev,
-		currentRotXPrev,
-		currentRotYPrev,
-		currentRotZPrev,
-		
-//		0,0,0,
-
-		targetXValPrev,
-		targetYValPrev,
-		targetZValPrev,
-
-		motor1powerValPrev,
-		motor2powerValPrev,
-		motor3powerValPrev,
-		motor4powerValPrev
-	);
+	std::vector<float> prevStateV;
+	std::vector<float> nextStateV;
 	
-	Observation nextState (
-		currentRotWNext,
-		currentRotXNext,
-		currentRotYNext,
-		currentRotZNext,
+	prevStateV.assign(prevStateData, prevStateData + 11);
+	nextStateV.assign(nextStateData, nextStateData + 11);
 
-//		0,0,0,
-
-		targetXValNext,
-		targetYValNext,
-		targetZValNext,
-
-		motor1powerValNext,
-		motor2powerValNext,
-		motor3powerValNext,
-		motor4powerValNext
-	);
+	Observation prevState (prevStateV);
+	Observation nextState (nextStateV);
 	
 	ExperienceItem expItem (
 		prevState,
 		nextState,
 		reward,
 		action
+	);
+
+	quadrocopterBrain.storeExperience(expItem);
+}
+
+extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API StoreQuadrocopterExperienceContinous (
+	float* prevStateData,
+	float* nextStateData,
+	double reward,
+	float* actionsScores
+) {
+
+	std::vector<float> prevStateV;
+	std::vector<float> nextStateV;
+	std::vector<float> actionsScoresV;
+	
+	prevStateV.assign(prevStateData, prevStateData + 11);
+	nextStateV.assign(nextStateData, nextStateData + 11);
+	actionsScoresV.assign(actionsScores, actionsScores + 8);
+
+	Observation prevState (prevStateV);
+	Observation nextState (nextStateV);
+	
+	ExperienceItem expItem (
+		prevState,
+		nextState,
+		reward,
+		actionsScoresV
 	);
 
 	quadrocopterBrain.storeExperience(expItem);

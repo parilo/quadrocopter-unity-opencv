@@ -21,11 +21,19 @@ class ExperienceItem {
 		double reward,
 		long action
 	);
+
+	ExperienceItem (
+		const Observation& prevState,
+		const Observation& nextState,
+		double reward,
+		const std::vector<float>& actionsScores
+	);
 	
 	Observation prevState;
 	Observation nextState;
 	double reward;
 	long action;
+	std::vector<float> actionsScores;
 
 };
 

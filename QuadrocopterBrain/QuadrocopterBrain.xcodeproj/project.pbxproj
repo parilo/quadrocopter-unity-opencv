@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3A3D53871C4ED0DB006493DE /* QuadrocopterBrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A3D53851C4ED0DB006493DE /* QuadrocopterBrain.cpp */; };
 		3A5B337A1C4C1C2F00714C73 /* BrainDiscreteDeepQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A5B33781C4C1C2F00714C73 /* BrainDiscreteDeepQ.cpp */; };
+		3A98D4A91C6FA9220004D5E9 /* BrainContinousDeepQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A98D4A71C6FA9220004D5E9 /* BrainContinousDeepQ.cpp */; };
+		3A98D4AC1C6FAFC30004D5E9 /* Tensors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A98D4AA1C6FAFC30004D5E9 /* Tensors.cpp */; };
 		3AA1A3D01C5D39A2005C11BC /* ExperienceItem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AA1A3CE1C5D39A2005C11BC /* ExperienceItem.cpp */; };
 		3AB42EA01C51612A00F6C917 /* Observation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB42E9E1C51612A00F6C917 /* Observation.cpp */; };
 		3AB42EA31C5168C000F6C917 /* Lib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3AB42EA11C5168C000F6C917 /* Lib.cpp */; };
@@ -77,6 +79,10 @@
 		3A3D53861C4ED0DB006493DE /* QuadrocopterBrain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuadrocopterBrain.hpp; sourceTree = "<group>"; };
 		3A5B33781C4C1C2F00714C73 /* BrainDiscreteDeepQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainDiscreteDeepQ.cpp; sourceTree = "<group>"; };
 		3A5B33791C4C1C2F00714C73 /* BrainDiscreteDeepQ.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BrainDiscreteDeepQ.hpp; sourceTree = "<group>"; };
+		3A98D4A71C6FA9220004D5E9 /* BrainContinousDeepQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BrainContinousDeepQ.cpp; sourceTree = "<group>"; };
+		3A98D4A81C6FA9220004D5E9 /* BrainContinousDeepQ.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = BrainContinousDeepQ.hpp; sourceTree = "<group>"; };
+		3A98D4AA1C6FAFC30004D5E9 /* Tensors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tensors.cpp; sourceTree = "<group>"; };
+		3A98D4AB1C6FAFC30004D5E9 /* Tensors.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tensors.hpp; sourceTree = "<group>"; };
 		3AA1A3CE1C5D39A2005C11BC /* ExperienceItem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExperienceItem.cpp; sourceTree = "<group>"; };
 		3AA1A3CF1C5D39A2005C11BC /* ExperienceItem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ExperienceItem.hpp; sourceTree = "<group>"; };
 		3AB42E9E1C51612A00F6C917 /* Observation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Observation.cpp; sourceTree = "<group>"; };
@@ -224,6 +230,10 @@
 				3AB42E9F1C51612A00F6C917 /* Observation.hpp */,
 				3AA1A3CE1C5D39A2005C11BC /* ExperienceItem.cpp */,
 				3AA1A3CF1C5D39A2005C11BC /* ExperienceItem.hpp */,
+				3A98D4A71C6FA9220004D5E9 /* BrainContinousDeepQ.cpp */,
+				3A98D4A81C6FA9220004D5E9 /* BrainContinousDeepQ.hpp */,
+				3A98D4AA1C6FAFC30004D5E9 /* Tensors.cpp */,
+				3A98D4AB1C6FAFC30004D5E9 /* Tensors.hpp */,
 			);
 			name = Brain;
 			sourceTree = "<group>";
@@ -412,8 +422,10 @@
 				3AE6526B1BEF6AFE007E8163 /* DisparityMapCalculator.cpp in Sources */,
 				3A3D53871C4ED0DB006493DE /* QuadrocopterBrain.cpp in Sources */,
 				3A5B337A1C4C1C2F00714C73 /* BrainDiscreteDeepQ.cpp in Sources */,
+				3A98D4A91C6FA9220004D5E9 /* BrainContinousDeepQ.cpp in Sources */,
 				3AE652771BF09D14007E8163 /* StereoCalibrator.cpp in Sources */,
 				3AA1A3D01C5D39A2005C11BC /* ExperienceItem.cpp in Sources */,
+				3A98D4AC1C6FAFC30004D5E9 /* Tensors.cpp in Sources */,
 				3AB42EA01C51612A00F6C917 /* Observation.cpp in Sources */,
 				3AE6526E1BEF6E28007E8163 /* CameraUndistortion.cpp in Sources */,
 				3AB42EA31C5168C000F6C917 /* Lib.cpp in Sources */,

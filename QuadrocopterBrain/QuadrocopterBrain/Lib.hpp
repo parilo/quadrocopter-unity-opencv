@@ -27,6 +27,18 @@ public:
 		long min,
 		long max
 	);
+
+	template <typename T>
+	static void getRandomSubArray (
+		const std::vector<T>& allItems,
+		std::vector<const T*>& subArray,
+		long subArrayLength
+	) {
+		std::vector<long> indices = Lib::getRandomNonRepeatSeries(subArrayLength, 0, allItems.size()-1);
+		for (auto index : indices) {
+			subArray.push_back(&allItems[index]);
+		}
+	}
 	
 };
 

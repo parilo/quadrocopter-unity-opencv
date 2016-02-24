@@ -20,9 +20,9 @@ void QuadrocopterBrain::act () {
 	std::cerr << "--- act: " << actExecuted << std::endl;
 	
 	choosedAction = brain.control(currentState);
-//	if (actExecuted % 4000 < 3000) {
-		train();
-//	}
+//	brain.controlContinuous(currentState, actionsScores);
+
+	train();
 	
 	actExecuted++;
 }
@@ -33,11 +33,20 @@ void QuadrocopterBrain::train () {
 		experience.size() < 200
 	) return;
 	
-	brain.train(experience);
+	trainCount = experience.size() * 0.1;
+	for (int i=0; i<trainCount; i++) {
+std::cerr << "--- train: " << i << std::endl;
+		brain.train(experience);
+	}
+std::cerr << "--- end train" << std::endl;
 }
 
 long QuadrocopterBrain::getAction () {
 	return choosedAction;
+}
+
+const std::vector<float>& QuadrocopterBrain::getActionsScores () {
+	return actionsScores;
 }
 
 void QuadrocopterBrain::storeExperience (const ExperienceItem& expItem) {
@@ -51,5 +60,5 @@ void QuadrocopterBrain::storeExperience (const ExperienceItem& expItem) {
 		experienceI %= maxExperience;
 	}
 	
-	std::cerr << "--- storeExperience: " << experienceI << std::endl;
+	std::cerr << "--- storeExperience: " << experienceI << " / " << experience.size() << std::endl;
 }

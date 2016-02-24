@@ -27,7 +27,7 @@ public class ReinitOnCollision : MonoBehaviour {
 
 	void resetQuadrocopter () {
 
-		float y = 0.3f;
+		float y = 2f;
 
 		frame.MovePosition (new Vector3 (0, y, 0));
 		frame.MoveRotation (Quaternion.Euler (0, 0, 0));
@@ -49,7 +49,7 @@ public class ReinitOnCollision : MonoBehaviour {
 		motor4.MoveRotation (Quaternion.Euler (0, 45, 350));
 		motor4.velocity = new Vector3(0, 0, 0);
 
-		quadrocopter.setMotorsPower (22);
+		quadrocopter.setMotorsPower (23);
 		gameManager.resetPrevAction ();
 	}
 	

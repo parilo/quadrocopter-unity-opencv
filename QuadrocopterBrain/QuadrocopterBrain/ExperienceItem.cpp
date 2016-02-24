@@ -21,3 +21,17 @@ reward(reward),
 action(action)
 
 {}
+
+ExperienceItem::ExperienceItem (
+	const Observation& prevState,
+	const Observation& nextState,
+	double reward,
+	const std::vector<float>& actionsScores
+):
+
+prevState(prevState),
+nextState(nextState),
+reward(reward),
+actionsScores(actionsScores)
+
+{}

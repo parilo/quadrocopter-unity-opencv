@@ -1,17 +1,17 @@
 //
-//  BrainDiscreteDeepQ.cpp
+//  BrainContinousDeepQ.cpp
 //  QuadrocopterBrain
 //
-//  Created by anton on 17/01/16.
+//  Created by anton on 13/02/16.
 //  Copyright © 2016 anton. All rights reserved.
 //
 
-#include "BrainDiscreteDeepQ.hpp"
+#include "BrainContinousDeepQ.hpp"
 #include "Lib.hpp"
 
 using namespace tensorflow;
 
-BrainDiscreteDeepQ::BrainDiscreteDeepQ () {
+BrainContinousDeepQ::BrainContinousDeepQ () {
 
 	Status status = NewSession(SessionOptions(), &session);
 	if (!status.ok()) {
@@ -52,7 +52,7 @@ BrainDiscreteDeepQ::BrainDiscreteDeepQ () {
 	с учетом уменьшения с итерациями
 	(линейный отжиг)
 */
-double BrainDiscreteDeepQ::linearAnnealing() {
+double BrainContinousDeepQ::linearAnnealing() {
 	if (actionsExecutedSoFar >= explorationPeriod)
 		return randomActionProbabilityFinal;
 	else
@@ -65,7 +65,7 @@ DeepQ learning strategy. Does not backprop.
 
 управление
 */
-long BrainDiscreteDeepQ::control (const Observation& ob) {
+long BrainContinousDeepQ::control (const Observation& ob) {
 	double explorationP = linearAnnealing();
 	long actionIndex;
 	if (Lib::randDouble(0.0, 1.0) < explorationP) {
@@ -86,13 +86,19 @@ long BrainDiscreteDeepQ::control (const Observation& ob) {
 		std::vector<tensorflow::Tensor> outputs;
 
 		//getting index of max scored action
-		Status status = session->Run(inputs, {"taking_action/predicted_actions"}, {}, &outputs);
+//		Status status = session->Run(inputs, {"taking_action/predicted_actions"}, {}, &outputs);
+
+		//ruling basing on all actions by
+		//performing actions in amplified by action scores
+		Status status = session->Run(inputs, {"taking_action/action_scores"}, {}, &outputs);
 		if (!status.ok()) {
 			std::cout << "tf error: " << status.ToString() << "\n";
 		}
 		
-		auto action = outputs [0].scalar<float>();
-		actionIndex = action ();
+		std::cerr << "--- action scores: " << outputs [0].DebugString() << std::endl;
+		
+//		auto action = outputs [0].scalar<float>();
+		actionIndex = 0;//action ();
 	}
 
 	actionsExecutedSoFar++;
@@ -117,7 +123,48 @@ long BrainDiscreteDeepQ::control (const Observation& ob) {
 //            return self.s.run(self.predicted_actions, {self.observation: observation[np.newaxis,:]})[0]
 }
 
-void BrainDiscreteDeepQ::train (const std::vector<ExperienceItem>& experience) {
+void BrainContinousDeepQ::controlContinuous(const Observation &ob, std::vector<float>& actionsScores) {
+//	double explorationP = linearAnnealing();
+//	long actionIndex;
+//	if (Lib::randDouble(0.0, 1.0) < explorationP) {
+//		actionIndex = Lib::randInt(0, numActions-1);
+//	} else {
+	
+		Tensor observation (DT_FLOAT, TensorShape({1, ob.getSize()}));
+		int i=0;
+		for (auto obItem : ob.data) {
+			observation.matrix<float>()(0, i++) = obItem;
+		}
+
+		std::vector<std::pair<string, tensorflow::Tensor>> inputs = {
+			{ "taking_action/observation", observation }
+		};
+
+		// The session will initialize the outputs
+		std::vector<tensorflow::Tensor> outputs;
+
+		//getting index of max scored action
+//		Status status = session->Run(inputs, {"taking_action/predicted_actions"}, {}, &outputs);
+
+		//ruling basing on all actions by
+		//performing actions in amplified by action scores
+		Status status = session->Run(inputs, {"taking_action/action_scores"}, {}, &outputs);
+		if (!status.ok()) {
+			std::cout << "tf error: " << status.ToString() << "\n";
+		}
+		
+//		std::cerr << "--- action scores: " << outputs [0].DebugString() << std::endl;
+		auto as = outputs [0].matrix<float>();
+		actionsScores.clear();
+		for (int i=0; i<numActions; i++) {
+			actionsScores.push_back(as (0, i));
+		}
+//	}
+
+	actionsExecutedSoFar++;
+}
+
+void BrainContinousDeepQ::train (const std::vector<ExperienceItem>& experience) {
 
 	if (experience.size() < minibatchSize) return;
 	
@@ -133,6 +180,8 @@ void BrainDiscreteDeepQ::train (const std::vector<ExperienceItem>& experience) {
 	std::vector<const ExperienceItem*> minibatch;
 	Lib::getRandomSubArray(experience, minibatch, minibatchSize);
 	
+	std::cerr << "--- minibatch experience " << minibatch.size() << std::endl;
+	
 	actionMasks.matrix<float>().setZero();
 	
 	int expI = 0;
@@ -145,8 +194,41 @@ void BrainDiscreteDeepQ::train (const std::vector<ExperienceItem>& experience) {
 			observations.matrix<float>()(expI, i) = prevState [i];
 			newObservations.matrix<float>()(expI, i) = nextState [i];
 		}
+
+		for (int i=0; i<numActions; i++) {
+			actionMasks.matrix<float>()(expI, i) = 1;
+		}
+	
+//		observations.matrix<float>()(expI, 0) = expItem->prevState.currentRotW;
+//		observations.matrix<float>()(expI, 1) = expItem->prevState.currentRotX;
+//		observations.matrix<float>()(expI, 2) = expItem->prevState.currentRotY;
+//		observations.matrix<float>()(expI, 3) = expItem->prevState.currentRotZ;
+//
+//		observations.matrix<float>()(expI, 4) = expItem->prevState.targetX;
+//		observations.matrix<float>()(expI, 5) = expItem->prevState.targetY;
+//		observations.matrix<float>()(expI, 6) = expItem->prevState.targetZ;
+//
+//		observations.matrix<float>()(expI, 7) = expItem->prevState.motor1power;
+//		observations.matrix<float>()(expI, 8) = expItem->prevState.motor2power;
+//		observations.matrix<float>()(expI, 9) = expItem->prevState.motor3power;
+//		observations.matrix<float>()(expI, 10) = expItem->prevState.motor4power;
+
+
+//		newObservations.matrix<float>()(expI, 0) = expItem->nextState.currentRotW;
+//		newObservations.matrix<float>()(expI, 1) = expItem->nextState.currentRotX;
+//		newObservations.matrix<float>()(expI, 2) = expItem->nextState.currentRotY;
+//		newObservations.matrix<float>()(expI, 3) = expItem->nextState.currentRotZ;
+//
+//		newObservations.matrix<float>()(expI, 4) = expItem->nextState.targetX;
+//		newObservations.matrix<float>()(expI, 5) = expItem->nextState.targetY;
+//		newObservations.matrix<float>()(expI, 6) = expItem->nextState.targetZ;
+//
+//		newObservations.matrix<float>()(expI, 7) = expItem->nextState.motor1power;
+//		newObservations.matrix<float>()(expI, 8) = expItem->nextState.motor2power;
+//		newObservations.matrix<float>()(expI, 9) = expItem->nextState.motor3power;
+//		newObservations.matrix<float>()(expI, 10) = expItem->nextState.motor4power;
 		
-		actionMasks.matrix<float>()(expI, expItem->action) = 1;
+//		actionMasks.matrix<float>()(expI, expItem->action) = 1;
 		rewards.matrix<float>()(expI, 0) = (float) expItem->reward;
 		newObservationsMasks.matrix<float>()(expI, 0) = 1;
 		

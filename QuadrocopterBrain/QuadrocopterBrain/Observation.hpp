@@ -9,6 +9,8 @@
 #ifndef Observation_hpp
 #define Observation_hpp
 
+#include <vector>
+
 class Observation {
 
 public:
@@ -16,72 +18,14 @@ public:
 	Observation ();
 
 	Observation (
-		double currentRotW,
-		double currentRotX,
-		double currentRotY,
-		double currentRotZ,
-
-//		double currentX,
-//		double currentY,
-//		double currentZ,
-
-		double targetX,
-		double targetY,
-		double targetZ,
-
-		double motor1power,
-		double motor2power,
-		double motor3power,
-		double motor4power
+		const std::vector<float>& data
 	);
 
 	void set (
-		double currentRotW,
-		double currentRotX,
-		double currentRotY,
-		double currentRotZ,
-
-//		double targetRotW,
-//		double targetRotX,
-//		double targetRotY,
-//		double targetRotZ,
-
-//		double currentX,
-//		double currentY,
-//		double currentZ,
-
-		double targetX,
-		double targetY,
-		double targetZ,
-
-		double motor1power,
-		double motor2power,
-		double motor3power,
-		double motor4power
+		const std::vector<float>& data
 	);
 
-	double currentRotW;
-	double currentRotX;
-	double currentRotY;
-	double currentRotZ;
-
-//	double targetRotW;
-//	double targetRotX;
-//	double targetRotY;
-//	double targetRotZ;
-
-//	double currentX;
-//	double currentY;
-//	double currentZ;
-
-	double targetX;
-	double targetY;
-	double targetZ;
-
-	double motor1power;
-	double motor2power;
-	double motor3power;
-	double motor4power;
+	std::vector<float> data;
 	
 	int getSize () const { return 11; }
 	void print () const;

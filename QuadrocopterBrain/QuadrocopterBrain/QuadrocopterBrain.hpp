@@ -25,6 +25,7 @@ public:
 	void act ();
 	
 	long getAction ();
+	const std::vector<float>& getActionsScores ();
 	
 	void storeExperience (const ExperienceItem& expItem);
 	
@@ -33,16 +34,17 @@ public:
 private:
 
 	long choosedAction;
+	std::vector<float> actionsScores;
 
 	Observation currentState;
 	BrainDiscreteDeepQ brain;
-//	std::deque<ExperienceItem> experience;
 	std::vector<ExperienceItem> experience;
 	int experienceI = 0;
 
 	long actExecuted = 0;
-	int storeEveryNth = 5;
-	int trainEveryNth = 1;
+	int storeEveryNth = 1;
+	int trainEveryNth = 2000;
+	int trainCount = 2000;
 	int maxExperience = 30000;
 
 };
